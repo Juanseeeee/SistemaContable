@@ -18,7 +18,7 @@ import java.security.Principal;
 public class UserController {
 
     @Autowired
-    UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
     private UserService userService;
 
@@ -35,7 +35,6 @@ public class UserController {
 
     @GetMapping("/login")
     public String login(Model model , UserDto userDto){
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
         model.addAttribute("user",userDto);
         return "login";
     }

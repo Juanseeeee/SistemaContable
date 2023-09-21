@@ -3,6 +3,7 @@ package com.example.contabliumv2.Service;
 
 import com.example.contabliumv2.Model.User;
 import com.example.contabliumv2.Repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,7 @@ import java.util.Collection;
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 
+    @Autowired
     private UserRepository userRepository;
 
     @Override
@@ -23,7 +25,7 @@ public class CustomUserDetailService implements UserDetailsService {
         if(user == null){
             throw new UsernameNotFoundException("Nombre de usuario o contraseña incorrecta");
         }
-        return new CustomUserDetails(user.getUsername(),user.getPassword(),authorities());
+        return new CustomUserDetails(user.getUsername(),user.getPassword(),authorities(),user.getFullname());
     }
 
     public Collection<? extends GrantedAuthority> authorities(){

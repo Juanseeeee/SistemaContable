@@ -3,7 +3,6 @@ package com.example.contabliumv2.Service;
 import com.example.contabliumv2.Dto.UserDto;
 import com.example.contabliumv2.Model.User;
 import com.example.contabliumv2.Repository.UserRepository;
-import com.example.contabliumv2.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(UserDto userDto) {
-        User user = new User(userDto.getUsername(),passwordEncoder.encode(userDto.getPassword()));
+        User user = new User(userDto.getUsername(),passwordEncoder.encode(userDto.getPassword()), userDto.getFullname());
         return userRepository.save(user);
     }
 }

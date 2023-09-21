@@ -14,18 +14,28 @@ public class User {
     @Column(unique = true)
     private String username;
     private String password;
+    private String fullname;
 
     public User() {
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, String fullname) {
         super();
         this.username = username;
         this.password = password;
+        this.fullname = fullname;
     }
 
     // Getters and setters
 
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
 
     public Long getId() {
         return id;

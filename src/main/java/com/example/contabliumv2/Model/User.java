@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +14,15 @@ public class User {
     @Column(unique = true)
     private String username;
     private String password;
+
+    public User() {
+    }
+
+    public User(String username, String password) {
+        super();
+        this.username = username;
+        this.password = password;
+    }
 
     // Getters and setters
 

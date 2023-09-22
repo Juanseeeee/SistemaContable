@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/register").permitAll()
                 .requestMatchers("home").permitAll()
+                .requestMatchers("registrar_asiento","ver_asientos","generar_reportes","agregar_cuenta").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")

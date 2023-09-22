@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar Asiento</title>
+  <style>
+    /* Estilo para el cuerpo de la página */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #c299d0;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Estilo para el encabezado */
+    header {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    /* Estilo para la barra de navegación */
+    nav ul {
+      list-style: none;
+      padding: 0;
+      background-color: #555;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    nav ul li {
+      float: left;
+    }
+
+    nav ul li a {
+      display: block;
+      color: #fff;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    nav ul li a:hover {
+      background-color: #777;
+    }
+
+    /* Estilo para el contenido principal */
+    main {
+      background-color: #fff;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Estilo para los campos del formulario */
+    form label {
+      font-weight: bold;
+    }
+
+    form input[type="text"],
+    form input[type="date"],
+    form select,
+    form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 16px;
+    }
+
+    /* Estilo para el botón de agregar cuenta */
+    form button[type="button"] {
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    /* Estilo para el botón de enviar el formulario */
+    form button[type="submit"] {
+      background-color: #008CBA;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    /* Estilo para el pie de página */
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    /* Estilo para la leyenda de derechos de autor en el pie de página */
+    footer p {
+      margin: 0;
+    }
+
+    /* Estilo para la opción seleccionada en el menú desplegable */
+    select option:checked {
+      background-color: #c299d0;
+      color: #fff;
+    }
+
+    /* Estilo para los campos de entrada con errores (puedes agregar más estilos personalizados aquí) */
+    form input:invalid,
+    form select:invalid,
+    form textarea:invalid {
+      border-color: #f00;
+      background-color: #fee;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Sistema Contable</h1>
+</header>
+
+<nav>
+  <ul>
+    <li><a th:href="@{/registrar_asiento}">Registrar Asiento</a></li>
+    <li><a th:href="@{/generar_reportes}">Generar Reportes</a></li>
+    <li><a th:href="@{/ver_asientos}">Ver Asientos</a></li>
+  </ul>
+</nav>
+<div th:fragment="registro">
+<main >
+
+  <h2>Registrar Asiento</h2>
+  <form th:action="@{/guardar_asiento}" method="post">
+    <!-- Campo de fecha -->
+    <label for="fecha">Fecha:</label>
+    <input type="date" id="fecha" name="fecha" required><br><br>
+
+    <!-- Campo de cuenta -->
+    <label for="cuenta">Cuenta:</label>
+    <select id="cuenta" name="cuenta" required>
+      <option value="cuenta1">Cuenta 1</option>
+      <option value="cuenta2">Cuenta 2</option>
+      <!-- Agrega más opciones de cuenta si es necesario -->
+    </select>
+    <!-- Botón para agregar nueva cuenta (opcional) -->
+    <a th:href="@{/agregar_cuenta}">Agregar Cuenta</a>
+
+    <!-- Campos de saldo debe y saldo haber -->
+    <label for="saldo_debe">Saldo Debe:</label>
+    <input type="text" id="saldo_debe" name="saldo_debe" required><br><br>
+
+    <label for="saldo_haber">Saldo Haber:</label>
+    <input type="text" id="saldo_haber" name="saldo_haber" required><br><br>
+
+    <!-- Campo de descripción -->
+    <label for="descripcion">Descripción:</label>
+    <textarea id="descripcion" name="descripcion" rows="4" cols="50" required></textarea><br><br>
+
+    <!-- Botón para enviar el formulario -->
+    <button type="submit">Guardar Asiento</button>
+  </form>
+
+</main>
+
+<footer>
+  <p>&copy; 2023 Isaguirre Juan Segundo</p>
+</footer>
+</div>
+
+</body>
+</html>

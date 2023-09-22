@@ -3,13 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <title>Sistema Contable</title>
-    <link rel="stylesheet" href="/homestyle.css"> <!-- Enlaza tu archivo CSS si lo tienes -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin: 0;
+        }
+
+        nav {
+            background-color: #c299d0;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            text-align: center;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+        }
+
+        .dashboard {
+            background-color: #5e057e;
+            color: #fff;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .dashboard__title {
+            font-size: 24px;
+            margin-top: 0;
+        }
+
+        .dashboard__user {
+            margin-top: 20px;
+        }
+
+        .dashboard__user-name {
+            font-size: 50px;
+            color: #c299d0;
+        }
+
+        a.agregar-cuenta-link {
+            display: inline-block;
+            background-color: #c299d0; /* Color principal */
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+
+        a.agregar-cuenta-link:hover {
+            background-color: #a87ab9; /* Color principal al pasar el cursor */
+        }
+
+
+
+
+
+
+
+
+
+    </style>
 </head>
 <body>
 <header>
     <h1>Sistema Contable</h1>
 </header>
-
+<!--
+<div class="dashboard">
+    <h1 class="dashboard__title">Welcome to the Dashboard</h1>
+    <div class="dashboard__user">
+        <h2 th:text="${userdetail.fullname}" class="dashboard__user-name">User's Name</h2>
+    </div>
+</div>
+<span sec:authorize="isAuthenticated"><a th:href="@{/logout}">Logout</a></span> -->
 <nav>
     <ul>
         <li><a th:href="@{/registrar_asiento}">Registrar Asiento</a></li>
@@ -20,8 +132,10 @@
 
 <main>
     <!-- Contenido principal de cada página se cargará aquí -->
+    <div th:if="${showRegistrarAsiento}" th:replace="~{registrar_asiento::registro}"></div>
+    <div th:if="${showGenerarReportes}" th:replace="~{generar_reportes::reportes}"></div>
+    <div th:if="${showVerAsientos}" th:replace="~{ver_asientos::asientos}"></div>
 </main>
-
 <footer>
     <p>&copy; 2023 Isaguirre Juan Segundo</p>
 </footer>

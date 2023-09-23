@@ -6,10 +6,12 @@ import jakarta.persistence.*;
 @Table(name = "cuenta")
 public class Cuenta {
 
-    private String nombre;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_cuenta")
     private Long id_cuenta;
+    @Column(unique = true)
+    private String nombre;
     private String tipo_cuenta;
     private Double saldo_actual;
     private int codigo;
@@ -29,7 +31,6 @@ public class Cuenta {
         this.id_cuenta = id_cuenta;
     }
 
-    @Id
     public Long getId_cuenta() {
         return id_cuenta;
     }

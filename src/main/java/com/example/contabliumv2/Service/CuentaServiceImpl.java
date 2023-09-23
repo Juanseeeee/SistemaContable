@@ -1,5 +1,6 @@
 package com.example.contabliumv2.Service;
 
+import com.example.contabliumv2.Dto.CuentaDto;
 import com.example.contabliumv2.Model.Cuenta;
 import com.example.contabliumv2.Repository.CuentaRepository;
 import org.springframework.stereotype.Service;
@@ -15,14 +16,16 @@ public class CuentaServiceImpl implements CuentaService{
 
     @Override
     public Cuenta findByAccountName(String name) {
-        return null;
+        return cuentaRepository.findByNombre(name);
     }
 
+
     @Override
-    public Cuenta save(Cuenta cuentaDto) {
+    public Cuenta save(CuentaDto cuentaDto) {
         Cuenta cuenta = new Cuenta(cuentaDto.getNombre(),cuentaDto.getTipo_cuenta(), cuentaDto.getSaldo_actual(),cuentaDto.getCodigo());
         return cuentaRepository.save(cuenta);
     }
+
 
 
 }

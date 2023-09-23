@@ -2,7 +2,9 @@ package com.example.contabliumv2.Controller;
 
 
 import com.example.contabliumv2.Dto.UserDto;
+import com.example.contabliumv2.Model.Cuenta;
 import com.example.contabliumv2.Model.User;
+import com.example.contabliumv2.Repository.CuentaRepository;
 import com.example.contabliumv2.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,16 +16,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class UserController {
 
     @Autowired
     private UserDetailsService userDetailsService;
+    private CuentaRepository cuentaRepository;
 
     private UserService userService;
 
-    public UserController(UserService userService) {
+    public UserController(CuentaRepository cuentaRepository, UserService userService) {
+        this.cuentaRepository = cuentaRepository;
         this.userService = userService;
     }
 
@@ -31,9 +36,11 @@ public class UserController {
     public String home(Model model, Principal principal){
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         model.addAttribute("userdetail",userDetails);
-        model.addAttribute("showRegistrarAsiento", true);
-        model.addAttribute("showGenerarReportes", false);
-        model.addAttribute("showVerAsientos", false);
+        List<Cuenta> cuentas = cuentaRepository.findAll();
+
+        // Agrega la lista de cuentas al modelo
+        model.addAttribute("cuentas", cuentas);
+
         return "home";
     }
 

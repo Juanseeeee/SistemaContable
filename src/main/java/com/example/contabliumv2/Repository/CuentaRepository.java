@@ -1,23 +1,14 @@
 package com.example.contabliumv2.Repository;
 
 import com.example.contabliumv2.Model.Cuenta;
+import com.example.contabliumv2.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface CuentaRepository extends JpaRepository<Cuenta,Long> {
-    @Override
-    default <S extends Cuenta> S save(S entity) {
-        return null;
-    }
 
-    @Override
-    default Optional<Cuenta> findById(Long aLong) {
-        return Optional.empty();
-    }
-
-    @Override
-    default void deleteById(Long aLong) {
-
-    }
+    Cuenta findByNombre (String nombre);
 }

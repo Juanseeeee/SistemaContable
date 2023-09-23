@@ -1,5 +1,6 @@
 package com.example.contabliumv2.Controller;
 
+import com.example.contabliumv2.Dto.CuentaDto;
 import com.example.contabliumv2.Model.Cuenta;
 import com.example.contabliumv2.Service.CuentaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class CuentaController {
     }
 
     @PostMapping("/agregar_cuenta")
-    public String guardarCuenta(@ModelAttribute("cuenta") Cuenta cuenta) {
+    public String guardarCuenta(@ModelAttribute("cuenta") CuentaDto cuentaDto) {
         // Lógica para guardar la cuenta en la base de datos a través del servicio
-        cuentaService.save(cuenta);
+        cuentaService.save(cuentaDto);
         return "redirect:/agregar_cuenta?success"; // Redirige a la página de lista de cuentas después de guardar
     }
 }

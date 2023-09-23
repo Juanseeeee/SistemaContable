@@ -1,16 +1,15 @@
 package com.example.contabliumv2.Dto;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 public class CuentaDto {
 
     private String nombre;
-    private Long id_cuenta;
     private String tipo_cuenta;
     private Double saldo_actual;
     private int codigo;
+
+    public CuentaDto() {
+    }
 
     public CuentaDto(String nombre, String tipo_cuenta, Double saldo_actual, int codigo) {
         this.nombre = nombre;
@@ -27,13 +26,6 @@ public class CuentaDto {
         this.nombre = nombre;
     }
 
-    public Long getId_cuenta() {
-        return id_cuenta;
-    }
-
-    public void setId_cuenta(Long id_cuenta) {
-        this.id_cuenta = id_cuenta;
-    }
 
     public String getTipo_cuenta() {
         return tipo_cuenta;

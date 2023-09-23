@@ -142,9 +142,7 @@
     <!-- Campo de cuenta -->
     <label for="cuenta">Cuenta:</label>
     <select id="cuenta" name="cuenta" required>
-      <option value="cuenta1">Cuenta 1</option>
-      <option value="cuenta2">Cuenta 2</option>
-      <!-- Agrega más opciones de cuenta si es necesario -->
+      <option th:each="cuenta : ${cuentas}" th:value="${cuenta.id_cuenta}" th:text="${cuenta.nombre}"></option>
     </select>
     <!-- Botón para agregar nueva cuenta (opcional) -->
     <a th:href="@{/agregar_cuenta}">Agregar Cuenta</a>

@@ -1,4 +1,4 @@
-package com.example.contabliumv2.Service;
+package com.example.contabliumv2.Service.UserService;
 
 import com.example.contabliumv2.Dto.UserDto;
 import com.example.contabliumv2.Model.User;

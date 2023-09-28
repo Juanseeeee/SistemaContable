@@ -1,19 +1,24 @@
 package com.example.contabliumv2.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
+@Table(name = "asiento")
 public class Asiento {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idasiento;
 
     public Date fecha;
     public String descripcion;
     public Long id_usuario;
-    private Long id_asiento;
 
-    public Asiento(Date fecha, String descripcion, Long id_usuario) {
+
+
+    public Asiento(Date fecha, String descripcion, Long id_usuario, List<Cuenta> cuentas) {
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.id_usuario = id_usuario;
@@ -48,11 +53,10 @@ public class Asiento {
     }
 
     public void setId_asiento(Long id_asiento) {
-        this.id_asiento = id_asiento;
+        this.idasiento = id_asiento;
     }
 
-    @Id
     public Long getId_asiento() {
-        return id_asiento;
+        return idasiento;
     }
 }

@@ -5,7 +5,7 @@ import com.example.contabliumv2.Dto.UserDto;
 import com.example.contabliumv2.Model.Cuenta;
 import com.example.contabliumv2.Model.User;
 import com.example.contabliumv2.Repository.CuentaRepository;
-import com.example.contabliumv2.Service.UserService;
+import com.example.contabliumv2.Service.UserService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -40,32 +40,26 @@ public class UserController {
 
         // Agrega la lista de cuentas al modelo
         model.addAttribute("cuentas", cuentas);
-
         return "home";
     }
 
-    @GetMapping("/registrar_asiento")
+    @GetMapping ("/registrar_asiento")
     public String mostrarRegistrarAsiento(Model model) {
-        model.addAttribute("showRegistrarAsiento", true);
-        model.addAttribute("showGenerarReportes", false);
-        model.addAttribute("showVerAsientos", false);
-        return "home"; // Redirige a la página principal para mostrar el fragmento actualizado
+        List<Cuenta> cuentas = cuentaRepository.findAll();
+
+        // Agrega la lista de cuentas al modelo
+        model.addAttribute("cuentas", cuentas);
+        return "registrar_asiento";
     }
 
     @GetMapping("/generar_reportes")
     public String mostrarGenerarReportes(Model model) {
-        model.addAttribute("showRegistrarAsiento", false);
-        model.addAttribute("showGenerarReportes", true);
-        model.addAttribute("showVerAsientos", false);
-        return "home"; // Redirige a la página principal para mostrar el fragmento actualizado
+        return "generar_reportes";
     }
 
     @GetMapping("/ver_asientos")
     public String mostrarVerAsientos(Model model) {
-        model.addAttribute("showRegistrarAsiento", false);
-        model.addAttribute("showGenerarReportes", false);
-        model.addAttribute("showVerAsientos", true);
-        return "home"; // Redirige a la página principal para mostrar el fragmento actualizado
+        return "ver_asientos";
     }
 
     @GetMapping("/login")

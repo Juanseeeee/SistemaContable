@@ -2,6 +2,8 @@ package com.example.contabliumv2.Model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "cuenta")
 public class Cuenta {
@@ -9,7 +11,7 @@ public class Cuenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cuenta")
-    private Long id_cuenta;
+    private Long idcuenta;
     @Column(unique = true)
     private String nombre;
     private String tipo_cuenta;
@@ -28,11 +30,11 @@ public class Cuenta {
     }
 
     public void setId_cuenta(Long id_cuenta) {
-        this.id_cuenta = id_cuenta;
+        this.idcuenta = id_cuenta;
     }
 
     public Long getId_cuenta() {
-        return id_cuenta;
+        return idcuenta;
     }
 
     public String getNombre() {
@@ -65,5 +67,10 @@ public class Cuenta {
 
     public void setCodigo(int codigo) {
         this.codigo = codigo;
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
     }
 }

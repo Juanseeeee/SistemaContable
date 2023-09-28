@@ -51,13 +51,15 @@
       background-color: #fff;
       padding: 20px;
       margin: 20px;
-      border-radius: 5px;
+      border-radius: 10px;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     }
 
     /* Estilo para los campos del formulario */
     form label {
       font-weight: bold;
+      margin-bottom: 5px;
+      color: #c299d0;
     }
 
     form input[type="text"],
@@ -66,28 +68,29 @@
     form textarea {
       width: 100%;
       padding: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
-      border-radius: 3px;
+      border-radius: 5px;
       font-size: 16px;
     }
 
-    /* Estilo para el botón de agregar cuenta */
-    form button[type="button"] {
-      background-color: #4CAF50;
+    /* Estilo para los botones */
+    form button[type="button"],
+    form button[type="submit"],
+    button {
+      background-color: #c299d0;
       color: #fff;
       border: none;
       padding: 10px 20px;
       cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
     }
 
-    /* Estilo para el botón de enviar el formulario */
-    form button[type="submit"] {
-      background-color: #008CBA;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
+    form button[type="button"]:hover,
+    form button[type="submit"]:hover,
+    button:hover {
+      background-color: #a368a3;
     }
 
     /* Estilo para el pie de página */
@@ -116,6 +119,75 @@
       border-color: #f00;
       background-color: #fee;
     }
+
+    /* Estilo para los campos de selección de tipo (Debe o Haber) */
+    #center-div {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 70%;
+    }
+
+    #center-div > div {
+      display: flex;
+      align-items: end;
+      gap: 10px;
+    }
+
+    #center-div label {
+      flex-basis: 10px;
+    }
+
+    #center-div input[type="text"] {
+      flex-grow: 1;
+    }
+
+    #center-div input[type="radio"] {
+      flex-basis: auto;
+      width: 10%;
+    }
+
+    #top-div {
+      display: inline-flex;
+      gap: 10px;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    button[type="submit"]{
+      margin: 10px;
+    }
+
+
+
+ /*Estilo para la vista de asientos */
+     table {
+       border-collapse: collapse;
+       width: 100%;
+       border: 1px solid #ccc;
+     }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #fff;
+    }
+
+
+
   </style>
 </head>
 <body>
@@ -123,51 +195,97 @@
   <h1>Sistema Contable</h1>
 </header>
 
-<nav>
-  <ul>
-    <li><a th:href="@{/registrar_asiento}">Registrar Asiento</a></li>
-    <li><a th:href="@{/generar_reportes}">Generar Reportes</a></li>
-    <li><a th:href="@{/ver_asientos}">Ver Asientos</a></li>
-  </ul>
-</nav>
-<div th:fragment="registro">
+<nav th:replace="fragments/nav_bar :: nav_bar"></nav>
+<div id="container">
 <main >
-
   <h2>Registrar Asiento</h2>
-  <form th:action="@{/guardar_asiento}" method="post">
-    <!-- Campo de fecha -->
-    <label for="fecha">Fecha:</label>
-    <input type="date" id="fecha" name="fecha" required><br><br>
+  <form th:action="@{/registrar_asiento}" method="post">
+    <div id="top-div">
+      <!-- Campo de fecha -->
+      <label for="fecha">Fecha:</label>
+      <input type="date" id="fecha" name="fecha" required><br><br>
 
+      <!-- Campo de descripción -->
+      <label for="descripcion">Descripción:</label>
+      <input type="text" id="descripcion" name="descripcion"  required></input><br><br>
+
+      <!-- Campo nro asiento -->
+      <label>Nro de asiento</label>
+
+    </div>
+    <div id="center-div">
     <!-- Campo de cuenta -->
+      <div>
     <label for="cuenta">Cuenta:</label>
     <select id="cuenta" name="cuenta" required>
       <option th:each="cuenta : ${cuentas}" th:value="${cuenta.id_cuenta}" th:text="${cuenta.nombre}"></option>
     </select>
     <!-- Botón para agregar nueva cuenta (opcional) -->
-    <a th:href="@{/agregar_cuenta}">Agregar Cuenta</a>
+    <button id="volver" th:onclick="'window.location.href = \'/agregar_cuenta\''" class="btn btn-addAcount">Agregar cuenta</button>
+        <!-- Campo monto -->
+        <label for="monto">Monto:</label>
+        <input type="text" id="monto" name="monto" required min="0"><br><br>
+      </div>
+      <div>
 
-    <!-- Campos de saldo debe y saldo haber -->
-    <label for="saldo_debe">Saldo Debe:</label>
-    <input type="text" id="saldo_debe" name="saldo_debe" required><br><br>
+      <label>Tipo:</label>
+        <label for="debe">Debe</label>
+      <input type="radio" id="debe" name="tipoRadio" value="Debe" checked="checked" th:onclick="'#tipo'.value =='Debe'">
 
-    <label for="saldo_haber">Saldo Haber:</label>
-    <input type="text" id="saldo_haber" name="saldo_haber" required><br><br>
+        <label for="haber">Haber</label>
+      <input type="radio" id="haber" name="tipoRadio" value="Haber" th:onclick="'#tipo'.value =='Haber'">
 
-    <!-- Campo de descripción -->
-    <label for="descripcion">Descripción:</label>
-    <textarea id="descripcion" name="descripcion" rows="4" cols="50" required></textarea><br><br>
+
+      </div>
+      <button type="submit" >Agregar</button>
+    </div>
+  </form>
+  <div id="vista-asientos">
+    <table>
+      <thead>
+      <tr>
+        <th>Cuenta</th>
+        <th>Debe</th>
+        <th>Haber</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="asientoTemp : ${asientosTemporales}">
+        <td th:text="${asientoTemp.cuenta}"></td>
+        <td th:text="${asientoTemp.monto}"></td>
+      </tr>
+      </tbody>
+    </table>
 
     <!-- Botón para enviar el formulario -->
     <button type="submit">Guardar Asiento</button>
-  </form>
-
+  </div>
 </main>
+  </div>
+
+
 
 <footer>
   <p>&copy; 2023 Isaguirre Juan Segundo</p>
 </footer>
-</div>
+
 
 </body>
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  function toggleHaber(debeCheckbox) {
+    var haberCheckbox = document.getElementById("haber");
+    if (debeCheckbox.checked) {
+      haberCheckbox.checked = false;
+    }
+  }
+
+  function toggleDebe(haberCheckbox) {
+    var debeCheckbox = document.getElementById("debe");
+    if (haberCheckbox.checked) {
+      debeCheckbox.checked = false;
+    }
+  }
+  /*]]>*/
+</script>
 </html>

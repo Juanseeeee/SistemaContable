@@ -1,6 +1,8 @@
 package com.example.contabliumv2.Model;
 
+import com.example.contabliumv2.Dto.DetalleDTO;
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -10,18 +12,24 @@ import java.util.List;
 public class Asiento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idasiento;
+    private Integer id_asiento;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     public Date fecha;
     public String descripcion;
     public Long id_usuario;
+    @OneToMany
+    @JoinColumn(name = "id_detalle")
+    public List<Detalle> detalle ;
 
 
 
-    public Asiento(Date fecha, String descripcion, Long id_usuario, List<Cuenta> cuentas) {
+    public Asiento(Date fecha, String descripcion, Long id_usuario, List<Detalle> detalle) {
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.id_usuario = id_usuario;
+        this.detalle = detalle;
     }
 
     public Asiento() {
@@ -52,11 +60,19 @@ public class Asiento {
         this.id_usuario = id_usuario;
     }
 
-    public void setId_asiento(Long id_asiento) {
-        this.idasiento = id_asiento;
+    public void setId_asiento(Integer id_asiento) {
+        this.id_asiento = id_asiento;
     }
 
-    public Long getId_asiento() {
-        return idasiento;
+    public Integer getId_asiento() {
+        return id_asiento;
+    }
+
+    public List<Detalle> getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(List<Detalle> detalle) {
+        this.detalle = detalle;
     }
 }

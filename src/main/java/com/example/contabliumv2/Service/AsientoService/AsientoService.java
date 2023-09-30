@@ -1,11 +1,9 @@
 package com.example.contabliumv2.Service.AsientoService;
 
-import com.example.contabliumv2.Dto.CuentaAsientoDTO;
-import com.example.contabliumv2.Model.cuentas_asientos;
+import com.example.contabliumv2.Dto.AsientoDTO;
+import com.example.contabliumv2.Model.Asiento;
 
 public interface AsientoService {
-
-    cuentas_asientos save(CuentaAsientoDTO cuentaAsientoDTO);
-
+    Asiento save(AsientoDTO asientoDTO);
 
 }

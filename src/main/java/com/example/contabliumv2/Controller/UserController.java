@@ -2,8 +2,10 @@ package com.example.contabliumv2.Controller;
 
 
 import com.example.contabliumv2.Dto.UserDto;
+import com.example.contabliumv2.Model.Asiento;
 import com.example.contabliumv2.Model.Cuenta;
 import com.example.contabliumv2.Model.User;
+import com.example.contabliumv2.Repository.AsientoRepository;
 import com.example.contabliumv2.Repository.CuentaRepository;
 import com.example.contabliumv2.Service.UserService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +26,13 @@ public class UserController {
     @Autowired
     private UserDetailsService userDetailsService;
     private CuentaRepository cuentaRepository;
+    private AsientoRepository asientoRepository;
 
     private UserService userService;
 
-    public UserController(CuentaRepository cuentaRepository, UserService userService) {
+    public UserController(CuentaRepository cuentaRepository, AsientoRepository asientoRepository, UserService userService) {
         this.cuentaRepository = cuentaRepository;
+        this.asientoRepository = asientoRepository;
         this.userService = userService;
     }
 
@@ -40,6 +44,8 @@ public class UserController {
 
         // Agrega la lista de cuentas al modelo
         model.addAttribute("cuentas", cuentas);
+        List<Asiento> asientos = asientoRepository.findAll();
+        model.addAttribute("asientos",asientos);
         return "home";
     }
 

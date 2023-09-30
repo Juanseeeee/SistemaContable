@@ -11,7 +11,7 @@ public class Cuenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cuenta")
-    private Long idcuenta;
+    private Integer id_cuenta;
     @Column(unique = true)
     private String nombre;
     private String tipo_cuenta;
@@ -29,12 +29,12 @@ public class Cuenta {
 
     }
 
-    public void setId_cuenta(Long id_cuenta) {
-        this.idcuenta = id_cuenta;
+    public void setId_cuenta(Integer id_cuenta) {
+        this.id_cuenta = id_cuenta;
     }
 
-    public Long getId_cuenta() {
-        return idcuenta;
+    public Integer getId_cuenta() {
+        return id_cuenta;
     }
 
     public String getNombre() {

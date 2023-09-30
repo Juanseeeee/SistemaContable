@@ -2,8 +2,11 @@ package com.example.contabliumv2.Dto;
 
 import com.example.contabliumv2.Model.Asiento;
 import com.example.contabliumv2.Model.Cuenta;
+import com.example.contabliumv2.Model.Detalle;
 
-public class CuentaAsientoDTO {
+import java.util.List;
+
+public class DetalleDTO {
 
 
     private Asiento asiento;
@@ -11,18 +14,21 @@ public class CuentaAsientoDTO {
     private Double debe;
     private Double haber;
     private Double monto;
-    private String descripcion;
+    private String tipoAsiento;
 
     // Getters y setters
 
 
-    public String getDescripcion() {
-        return descripcion;
+
+
+    public String getTipoAsiento() {
+        return tipoAsiento;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setTipoAsiento(String tipoAsiento) {
+        this.tipoAsiento = tipoAsiento;
     }
+
 
     public Asiento getAsiento() {
         return asiento;
@@ -63,5 +69,7 @@ public class CuentaAsientoDTO {
     public void setMonto(Double monto) {
         this.monto = monto;
     }
+
+
 
 }

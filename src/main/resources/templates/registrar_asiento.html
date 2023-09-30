@@ -199,11 +199,12 @@
 <div id="container">
 <main >
   <h2>Registrar Asiento</h2>
-  <form th:action="@{/registrar_asiento}" method="post">
+
     <div id="top-div">
+      <form th:action="@{/guardar_asiento}" method="post">
       <!-- Campo de fecha -->
       <label for="fecha">Fecha:</label>
-      <input type="date" id="fecha" name="fecha" required><br><br>
+      <input type="date" id="fecha" name="fecha" required pattern="\d{4}-\d{2}-\d{2}"><br><br>
 
       <!-- Campo de descripción -->
       <label for="descripcion">Descripción:</label>
@@ -211,9 +212,11 @@
 
       <!-- Campo nro asiento -->
       <label>Nro de asiento</label>
-
+        <button type="submit">Guardar Asiento</button>
+        </form>
     </div>
     <div id="center-div">
+      <form th:action="@{/registrar_asiento}" method="post">
     <!-- Campo de cuenta -->
       <div>
     <label for="cuenta">Cuenta:</label>
@@ -230,16 +233,18 @@
 
       <label>Tipo:</label>
         <label for="debe">Debe</label>
-      <input type="radio" id="debe" name="tipoRadio" value="Debe" checked="checked" th:onclick="'#tipo'.value =='Debe'">
+      <input type="radio" id="debe" name="tipoAsiento" value="Debe" checked="checked" th:onclick="'#tipo'.value =='Debe'">
 
         <label for="haber">Haber</label>
-      <input type="radio" id="haber" name="tipoRadio" value="Haber" th:onclick="'#tipo'.value =='Haber'">
+      <input type="radio" id="haber" name="tipoAsiento" value="Haber" th:onclick="'#tipo'.value =='Haber'">
 
 
       </div>
       <button type="submit" >Agregar</button>
+      </form>
     </div>
-  </form>
+
+  <!-- Parte de vista de detalles -->
   <div id="vista-asientos">
     <table>
       <thead>
@@ -251,14 +256,15 @@
       </thead>
       <tbody>
       <tr th:each="asientoTemp : ${asientosTemporales}">
-        <td th:text="${asientoTemp.cuenta}"></td>
-        <td th:text="${asientoTemp.monto}"></td>
+        <td th:text="${asientoTemp.getId_cuenta()}"></td>
+        <td th:text="${asientoTemp.getDebe()}"></td>
+        <td th:text="${asientoTemp.getHaber()}"></td>
       </tr>
       </tbody>
     </table>
 
     <!-- Botón para enviar el formulario -->
-    <button type="submit">Guardar Asiento</button>
+
   </div>
 </main>
   </div>

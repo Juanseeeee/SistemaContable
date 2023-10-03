@@ -3,9 +3,10 @@ package com.example.contabliumv2.Dto;
 import com.example.contabliumv2.Model.Asiento;
 import com.example.contabliumv2.Model.Cuenta;
 import com.example.contabliumv2.Model.Detalle;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DetalleDTO {
 
 

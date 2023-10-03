@@ -11,7 +11,7 @@ public class Cuenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cuenta")
-    private Integer id_cuenta;
+    private Integer idCuenta;
     @Column(unique = true)
     private String nombre;
     private String tipo_cuenta;
@@ -30,11 +30,11 @@ public class Cuenta {
     }
 
     public void setId_cuenta(Integer id_cuenta) {
-        this.id_cuenta = id_cuenta;
+        this.idCuenta = id_cuenta;
     }
 
     public Integer getId_cuenta() {
-        return id_cuenta;
+        return idCuenta;
     }
 
     public String getNombre() {

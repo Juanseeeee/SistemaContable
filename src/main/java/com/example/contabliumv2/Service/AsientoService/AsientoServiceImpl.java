@@ -5,6 +5,8 @@ import com.example.contabliumv2.Model.Asiento;
 import com.example.contabliumv2.Repository.AsientoRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AsientoServiceImpl {
 
@@ -21,6 +23,11 @@ public class AsientoServiceImpl {
 
     public Asiento save(Asiento asiento){
         return asientoRepository.save(asiento);
+    }
+
+    public Integer obtenerUltimoAsientoId() {
+        Optional<Asiento> ultimoAsientoOptional = asientoRepository.findFirstByOrderByIdAsientoDesc();
+        return ultimoAsientoOptional.map(Asiento::getId_asiento).orElse(null);
     }
 
 

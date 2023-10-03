@@ -137,6 +137,25 @@
         <option th:each="asiento : ${asientos}" th:value="${asiento.id_asiento}" th:text="${asiento.descripcion}"></option>
     </select>
 
+    <table>
+        <thead>
+        <tr>
+            <th>Nro asiento</th>
+            <th>Fecha</th>
+            <th>Descripcion</th>
+            <th>Detalle</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="asiento : ${asientos}">
+            <td th:text="${asiento.getId_asiento}"></td>
+            <td th:text="${asiento.getFecha()}"></td>
+            <td th:text="${asiento.getDescripcion()}"></td>
+            <td th:text="${asiento.getDetalles}"></td>
+        </tr>
+        </tbody>
+    </table>
+
 </main>
 <footer>
     <p>&copy; 2023 Isaguirre Juan Segundo</p>

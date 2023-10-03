@@ -210,6 +210,7 @@
       <label for="descripcion">Descripción:</label>
       <input type="text" id="descripcion" name="descripcion"  required></input><br><br>
 
+
       <!-- Campo nro asiento -->
       <label>Nro de asiento</label>
         <button type="submit">Guardar Asiento</button>
@@ -239,6 +240,7 @@
       <input type="radio" id="haber" name="tipoAsiento" value="Haber" th:onclick="'#tipo'.value =='Haber'">
 
 
+
       </div>
       <button type="submit" >Agregar</button>
       </form>
@@ -256,7 +258,7 @@
       </thead>
       <tbody>
       <tr th:each="asientoTemp : ${asientosTemporales}">
-        <td th:text="${asientoTemp.getId_cuenta()}"></td>
+        <td th:text="${asientoTemp.getCuenta()}"></td>
         <td th:text="${asientoTemp.getDebe()}"></td>
         <td th:text="${asientoTemp.getHaber()}"></td>
       </tr>
@@ -277,21 +279,4 @@
 
 
 </body>
-<script th:inline="javascript">
-  /*<![CDATA[*/
-  function toggleHaber(debeCheckbox) {
-    var haberCheckbox = document.getElementById("haber");
-    if (debeCheckbox.checked) {
-      haberCheckbox.checked = false;
-    }
-  }
-
-  function toggleDebe(haberCheckbox) {
-    var debeCheckbox = document.getElementById("debe");
-    if (haberCheckbox.checked) {
-      debeCheckbox.checked = false;
-    }
-  }
-  /*]]>*/
-</script>
 </html>

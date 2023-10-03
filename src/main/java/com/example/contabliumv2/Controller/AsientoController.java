@@ -7,28 +7,36 @@ import com.example.contabliumv2.Model.Cuenta;
 import com.example.contabliumv2.Model.Detalle;
 import com.example.contabliumv2.Repository.AsientoRepository;
 import com.example.contabliumv2.Repository.CuentaRepository;
+import com.example.contabliumv2.Repository.DetalleRepository;
 import com.example.contabliumv2.Service.AsientoService.AsientoServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.data.auditing.CurrentDateTimeProvider;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
+@SessionAttributes("cuenta")
 public class AsientoController {
 
+    private final DetalleRepository detalleRepository;
     private final AsientoRepository asientoRepository;
     private final CuentaRepository cuentaRepository;
     private final AsientoServiceImpl asientoService;
-    private List<Detalle> asientosTemporales = new ArrayList<Detalle>();
+    private List<Detalle> detallesTemporales = new ArrayList<Detalle>();
+    private Asiento asientoAct = new Asiento();
 
-    public AsientoController(AsientoRepository asientoRepository, CuentaRepository cuentaRepository, AsientoServiceImpl asientoService) {
+    public AsientoController(AsientoRepository asientoRepository, CuentaRepository cuentaRepository, AsientoServiceImpl asientoService, ObjectMapper objectMapper, DetalleRepository detalleRepository, DetalleRepository detalleRepository1) {
         this.asientoRepository = asientoRepository;
         this.cuentaRepository = cuentaRepository;
         this.asientoService = asientoService;
+        this.detalleRepository = detalleRepository1;
     }
 
     // ... Otros métodos de controlador ...
@@ -40,12 +48,13 @@ public class AsientoController {
     }
 
 
+    @Transactional
     @PostMapping("/registrar_asiento")
     public String guardarDetalle(@ModelAttribute DetalleDTO detalleDTO, Model model) {
         List<Cuenta> cuentas = cuentaRepository.findAll();
         // Agrega la lista de cuentas al modelo
         model.addAttribute("cuentas", cuentas);
-            // Se seleccionó "Debe"
+        // Se seleccionó "Debe"
         // Verifica el tipo de asiento
         if ("Debe".equals(detalleDTO.getTipoAsiento())) {
             detalleDTO.setDebe(detalleDTO.getMonto());
@@ -57,38 +66,58 @@ public class AsientoController {
             // Manejar el caso en el que no se haya seleccionado nada
         }
 
-        // Creo una lista en el modelo para almacenar detalles de asientos temporales.
-            Detalle detalle = new Detalle(detalleDTO.getAsiento(),
-                    detalleDTO.getCuenta(),
-                    detalleDTO.getDebe(),
-                    detalleDTO.getHaber());
+        // Crear un nuevo Asiento
+        Asiento asiento = asientoAct;
+        asiento.setDescripcion("prueba1");
+        asiento.setFecha(new Date());
+
+// Crear un nuevo Detalle
+        Detalle detalle = new Detalle();
+        detalle.setAsiento(asiento); // Establecer la referencia al Asiento en el Detalle
+        detalle.setCuenta(cuentaRepository.findByIdCuenta(detalleDTO.getCuenta().getId_cuenta()));
+        detalle.setDebe(detalleDTO.getDebe());
+        detalle.setHaber(detalleDTO.getHaber());
+
+// Agregar el Detalle al Asiento
+        asiento.getDetalles().add(detalle);
+
+// Guardar el Asiento (esto también persistirá el Detalle debido a CascadeType.ALL)
+        asientoRepository.save(asiento);
 
 
-        asientosTemporales.add(detalle);
+        detallesTemporales.add(detalle);
 
         // Agrega la lista de asientos temporales al modelo para que esté disponible en la vista.
-        model.addAttribute("asientosTemporales", asientosTemporales);
+        model.addAttribute("asientosTemporales", detallesTemporales);
         // Redirige nuevamente a la vista de entrada de asientos.
         return "registrar_asiento";
     }
 
 
+    @Transactional
     @PostMapping("/guardar_asiento")
     public String guardar_asiento(@ModelAttribute AsientoDTO asientoDTO, Model model){
         List<Cuenta> cuentas = cuentaRepository.findAll();
         model.addAttribute("cuentas", cuentas);
 
-        List<Asiento> asientos = asientoRepository.findAll();
-        model.addAttribute("asientos",asientos);
 
-        Asiento asiento = new Asiento();
+        model.addAttribute("asientos",asientoAct);
+
+        model.addAttribute("detalle",detallesTemporales);
+
+
+        Asiento asiento = asientoAct;
         asiento.setDescripcion(asientoDTO.getDescripcion());
         asiento.setFecha(asientoDTO.getFecha());
-        asiento.setDetalle(asientoDTO.getDetalle());
+        asiento.setDetalles(detallesTemporales);
         asiento.setId_usuario(asientoDTO.getId_usuario());
 
+        for(Detalle asientoDet : detallesTemporales){
+            asientoDet.setAsiento(asientoDet.getAsiento());
+        }
+
         asientoService.save(asiento);
-        asientosTemporales.clear();
+        detallesTemporales.clear();
 
         return "redirect:/home";
     }

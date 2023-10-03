@@ -4,32 +4,36 @@ import com.example.contabliumv2.Dto.DetalleDTO;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "asiento")
 public class Asiento {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_asiento;
+    @Column(name = "id_asiento")
+    private Integer idAsiento;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
-    public Date fecha;
-    public String descripcion;
-    public Long id_usuario;
-    @OneToMany
-    @JoinColumn(name = "id_detalle")
-    public List<Detalle> detalle ;
+    private Date fecha;
+
+    private String descripcion;
+    private Long idUsuario;
+
+    @OneToMany(mappedBy = "asiento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Detalle> detalles = new ArrayList<>();
 
 
 
     public Asiento(Date fecha, String descripcion, Long id_usuario, List<Detalle> detalle) {
         this.fecha = fecha;
         this.descripcion = descripcion;
-        this.id_usuario = id_usuario;
-        this.detalle = detalle;
+        this.idUsuario = id_usuario;
+        this.detalles = detalle;
     }
 
     public Asiento() {
@@ -53,26 +57,27 @@ public class Asiento {
     }
 
     public Long getId_usuario() {
-        return id_usuario;
+        return idUsuario;
     }
 
     public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
+        this.idUsuario = id_usuario;
     }
 
     public void setId_asiento(Integer id_asiento) {
-        this.id_asiento = id_asiento;
+        this.idAsiento = id_asiento;
     }
 
     public Integer getId_asiento() {
-        return id_asiento;
+        return idAsiento;
     }
 
-    public List<Detalle> getDetalle() {
-        return detalle;
+    public List<Detalle> getDetalles() {
+        return detalles;
     }
 
-    public void setDetalle(List<Detalle> detalle) {
-        this.detalle = detalle;
+    public void setDetalles(List<Detalle> detalle) {
+        this.detalles = detalle;
     }
+
 }

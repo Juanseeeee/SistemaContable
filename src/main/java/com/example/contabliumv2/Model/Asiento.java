@@ -4,13 +4,14 @@ import com.example.contabliumv2.Dto.DetalleDTO;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "asiento")
-public class Asiento {
+public class Asiento implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +25,6 @@ public class Asiento {
     private String descripcion;
     private Long idUsuario;
 
-    @OneToMany(mappedBy = "asiento", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Detalle> detalles = new ArrayList<>();
 
 
 
@@ -33,7 +32,6 @@ public class Asiento {
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.idUsuario = id_usuario;
-        this.detalles = detalle;
     }
 
     public Asiento() {
@@ -72,12 +70,5 @@ public class Asiento {
         return idAsiento;
     }
 
-    public List<Detalle> getDetalles() {
-        return detalles;
-    }
-
-    public void setDetalles(List<Detalle> detalle) {
-        this.detalles = detalle;
-    }
 
 }

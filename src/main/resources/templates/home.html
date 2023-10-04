@@ -100,13 +100,31 @@
             background-color: #a87ab9; /* Color principal al pasar el cursor */
         }
 
+        /*Estilo para la vista de asientos */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ccc;
+        }
 
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
 
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
 
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
 
-
-
-
+        tr:nth-child(odd) {
+            background-color: #fff;
+        }
 
     </style>
 </head>
@@ -124,9 +142,9 @@
 <span sec:authorize="isAuthenticated"><a th:href="@{/logout}">Logout</a></span> -->
 <nav>
     <ul>
-        <li><a th:href="@{/registrar_asiento}">Registrar Asiento</a></li>
+        <li><a th:href="@{/preparar_asiento}">Registrar Asiento</a></li>
         <li><a th:href="@{/generar_reportes}">Generar Reportes</a></li>
-        <li><a th:href="@{/ver_asientos}">Ver Asientos</a></li>
+        <li><a th:href="@{/home}">Ver Asientos</a></li>
     </ul>
 </nav>
 
@@ -151,7 +169,9 @@
             <td th:text="${asiento.getId_asiento}"></td>
             <td th:text="${asiento.getFecha()}"></td>
             <td th:text="${asiento.getDescripcion()}"></td>
-            <td th:text="${asiento.getDetalles}"></td>
+            <td>
+                <a th:href="@{'/detalle/' + ${asiento.getId_asiento()}}">Ver Detalle</a>
+            </td>
         </tr>
         </tbody>
     </table>

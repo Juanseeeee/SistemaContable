@@ -2,11 +2,12 @@ package com.example.contabliumv2.Model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "cuenta")
-public class Cuenta {
+public class Cuenta implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

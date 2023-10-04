@@ -36,7 +36,9 @@ public class SecurityConfig {
                         "/generar_reportes",
                         "/agregar_cuenta",
                         "/guardar_asiento",
-                        "/guardar_detalle").authenticated()
+                        "/guardar_detalle",
+                        "/preparar_asiento",
+                        "/detalle/{id}").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")

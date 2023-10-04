@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface AsientoRepository extends JpaRepository<Asiento,Integer> {
 
         Optional<Asiento> findFirstByOrderByIdAsientoDesc();
-
+        Asiento findByIdAsiento(Integer idAsiento);
 }

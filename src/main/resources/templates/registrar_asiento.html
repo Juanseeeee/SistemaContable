@@ -165,17 +165,20 @@
        border-collapse: collapse;
        width: 100%;
        border: 1px solid #ccc;
+       padding-bottom: 10px;
      }
 
     th, td {
       border: 1px solid #ccc;
-      padding: 8px;
       text-align: center;
+      padding: 10px 8px;
+      margin-bottom: 100px;
     }
 
     th {
       background-color: #f2f2f2;
       font-weight: bold;
+      padding: 8px 8px 10px;
     }
 
     tr:nth-child(even) {
@@ -193,7 +196,7 @@
       text-align: center;
     }
 
-    a{
+    #boton-volver{
       background-color: #c299d0;
       color: #fff;
       border: none;
@@ -201,6 +204,11 @@
       cursor: pointer;
       border-radius: 5px;
       font-size: 16px;
+      margin-top: 100px;
+    }
+
+    #vista-asientos{
+      margin-bottom: 20px;
     }
 
 
@@ -216,9 +224,22 @@
 
 <div th:if="${param.error}">
   <div class="error-message">
-    <p th:text="${error}"></p>
+    <p>El debe no coincide con el haber.</p>
   </div>
 </div>
+
+<div th:if="${param.errorCuenta}">
+  <div class="error-message">
+    <p>No se puede registrar dos veces la misma cuenta en un asiento!.</p>
+  </div>
+</div>
+
+<div th:if="${param.errorMonto}">
+  <div class="error-message">
+    <p>El monto ingresado es negativo.</p>
+  </div>
+</div>
+
 
 <div id="container">
 <main >
@@ -288,10 +309,10 @@
       </tr>
       </tbody>
     </table>
-    <a th:href="@{/home}">Volver al inicio</a>
     <!-- Botón para enviar el formulario -->
 
   </div>
+  <a th:href="@{/home}" id="boton-volver">Volver al inicio</a>
 </main>
   </div>
 

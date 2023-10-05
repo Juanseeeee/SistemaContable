@@ -150,11 +150,6 @@
 
 <main>
     <!-- Contenido principal de cada página se cargará aquí -->
-    <label for="asiento">Asientos:</label>
-    <select id="asiento" name="asiento" required>
-        <option th:each="asiento : ${asientos}" th:value="${asiento.id_asiento}" th:text="${asiento.descripcion}"></option>
-    </select>
-
     <table>
         <thead>
         <tr>

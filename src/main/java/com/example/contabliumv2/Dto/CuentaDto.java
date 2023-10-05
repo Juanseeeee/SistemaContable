@@ -7,15 +7,26 @@ public class CuentaDto {
     private String tipo_cuenta;
     private Double saldo_actual;
     private int codigo;
+    private Integer recibe_saldo;
 
     public CuentaDto() {
     }
 
-    public CuentaDto(String nombre, String tipo_cuenta, Double saldo_actual, int codigo) {
+    public CuentaDto(String nombre, String tipo_cuenta, Double saldo_actual, int codigo, Integer recibe_saldo) {
         this.nombre = nombre;
         this.tipo_cuenta = tipo_cuenta;
         this.saldo_actual = saldo_actual;
         this.codigo = codigo;
+        this.recibe_saldo = recibe_saldo;
+    }
+
+
+    public Integer getRecibe_saldo() {
+        return recibe_saldo;
+    }
+
+    public void setRecibe_saldo(Integer recibe_saldo) {
+        this.recibe_saldo = recibe_saldo;
     }
 
     public String getNombre() {

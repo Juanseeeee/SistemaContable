@@ -77,8 +77,18 @@ public class AsientoController {
         detalle.setCuenta(cuentaRepository.findByIdCuenta(detalleDTO.getCuenta().getId_cuenta()));
         detalle.setDebe(detalleDTO.getDebe());
         detalle.setHaber(detalleDTO.getHaber());
-        //detalleRepository.save(detalle);
 
+        if(detalle.getDebe() <0 || detalle.getHaber() <0){
+            return "redirect:/registrar_asiento?errorMonto";
+        }
+
+        //VALIDACION 1 SOLA CUENTA POR ASIENTO.
+        //Busco que cuentas hay en el asiento
+        for(Detalle detalleChk : detallesTemporales) {
+            if (detalleChk.getCuenta().getNombre().equals(detalle.getCuenta().getNombre())){
+                return "redirect:/registrar_asiento?errorCuenta";
+            }
+        }
         detallesTemporales.add(detalle);
         //Agrego detalles temporales a la vista para que se visualize
         model.addAttribute("ListaDetallesTemporales",detallesTemporales);
@@ -89,7 +99,7 @@ public class AsientoController {
 
     @Transactional
     @PostMapping("/guardar_asiento")
-    public String guardar_asiento(@ModelAttribute AsientoDTO asientoDTO, Model model) throws Exception{
+    public String guardar_asiento(@ModelAttribute AsientoDTO asientoDTO, Model model){
         List<Cuenta> cuentas = cuentaRepository.findAll();
         model.addAttribute("cuentas", cuentas);
 
@@ -100,6 +110,7 @@ public class AsientoController {
 
         Asiento asiento = asientoRepository.findByIdAsiento(asientoService.obtenerUltimoAsientoId());
         //Si el debe es distinto que el haber el asiento no se guarda.
+        //VALIDACION DEBE = HABER
         Double debe = 0.0;
         Double haber = 0.0;
         for(Detalle detalle : detallesTemporales){
@@ -109,15 +120,16 @@ public class AsientoController {
         if(!debe.equals(haber)){
             //throw new Exception("El debe no coincide con el haber. Es incorrecto");
             detallesTemporales.clear();
-            model.addAttribute("errorDebeHaber","El debe no coincide con el haber. Es incorrecto");
-            return "registrar_asiento";
+            model.addAttribute("error","El debe no coincide con el haber. Es incorrecto");
+            return "redirect:/registrar_asiento?error";
         }
 
         asiento.setDescripcion(asientoDTO.getDescripcion());
         asiento.setFecha(asientoDTO.getFecha());
         asiento.setId_usuario(asientoDTO.getId_usuario());
-
+        //ANTES DE GUARDAR LOS DETALLES IMPUTO LAS CUENTAS
         for(Detalle detalle : detallesTemporales){
+            ImputarPorTipoCuenta(detalle);
             detalleRepository.save(detalle);
         }
 
@@ -154,6 +166,33 @@ public class AsientoController {
         List<Detalle> detalles = detalleRepository.findAllByAsiento(asiento);
         model.addAttribute("ListaDetallesTemporales",detalles);
         return "registrar_asiento"; // Nombre de la página de detalle (detalle.html)
+    }
+
+    public void ImputarPorTipoCuenta(Detalle detalle) {
+        //Si va por el debe:
+        if (detalle.getHaber().equals(0.0)) {
+            //Si es Activo aumenta por el debe
+            if (detalle.getCuenta().getTipo_cuenta().equals("Activo")) {
+                cuentaRepository.findByIdCuenta(detalle.getCuenta().getId_cuenta()).imputarCuenta(detalle.getDebe());
+            }
+            //Si es Pasivo disminuye por el debe
+            else if (detalle.getCuenta().getTipo_cuenta().equals("Pasivo")) {
+                cuentaRepository.findByIdCuenta(detalle.getCuenta().getId_cuenta()).imputarCuenta(-detalle.getDebe());
+            }
+        }
+        //Si va por el haber
+        else if (detalle.getDebe().equals(0.0)) {
+            //Si es Activo disminuye por el haber
+            if (detalle.getCuenta().getTipo_cuenta().equals("Activo")) {
+                cuentaRepository.findByIdCuenta(detalle.getCuenta().getId_cuenta()).imputarCuenta(-detalle.getHaber());
+            }
+            //Si es Pasivo aumenta por el haber
+            else if (detalle.getCuenta().getTipo_cuenta().equals("Pasivo")) {
+                cuentaRepository.findByIdCuenta(detalle.getCuenta().getId_cuenta()).imputarCuenta(detalle.getHaber());
+            }
+
+
+        }
     }
 
 

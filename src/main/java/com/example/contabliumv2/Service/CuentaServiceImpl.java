@@ -22,7 +22,7 @@ public class CuentaServiceImpl implements CuentaService{
 
     @Override
     public Cuenta save(CuentaDto cuentaDto) {
-        Cuenta cuenta = new Cuenta(cuentaDto.getNombre(),cuentaDto.getTipo_cuenta(), cuentaDto.getSaldo_actual(),cuentaDto.getCodigo());
+        Cuenta cuenta = new Cuenta(cuentaDto.getNombre(),cuentaDto.getTipo_cuenta(), cuentaDto.getSaldo_actual(),cuentaDto.getCodigo(),cuentaDto.getRecibe_saldo());
         return cuentaRepository.save(cuenta);
     }
 

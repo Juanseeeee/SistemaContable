@@ -16,8 +16,17 @@ public class Cuenta implements Serializable {
     @Column(unique = true)
     private String nombre;
     private String tipo_cuenta;
+    private Integer recibe_saldo;
     private Double saldo_actual;
     private int codigo;
+
+    public Cuenta(String nombre, String tipo_cuenta, Double saldo_actual, int codigo, int recibe_saldo) {
+        this.nombre = nombre;
+        this.tipo_cuenta = tipo_cuenta;
+        this.saldo_actual = saldo_actual;
+        this.codigo = codigo;
+        this.recibe_saldo = recibe_saldo;
+    }
 
     public Cuenta(String nombre, String tipo_cuenta, Double saldo_actual, int codigo) {
         this.nombre = nombre;
@@ -73,5 +82,17 @@ public class Cuenta implements Serializable {
     @Override
     public String toString() {
         return nombre;
+    }
+
+    public Integer getRecibe_saldo() {
+        return recibe_saldo;
+    }
+
+    public void setRecibe_saldo(Integer recibe_saldo) {
+        this.recibe_saldo = recibe_saldo;
+    }
+
+    public void imputarCuenta(Double monto){
+        this.saldo_actual += monto;
     }
 }

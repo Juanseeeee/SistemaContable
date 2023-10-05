@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Controller
 public class CuentaController {
 
@@ -20,6 +23,12 @@ public class CuentaController {
         this.cuentaService = cuentaService;
     }
 
+    @ModelAttribute("categorias")
+    public List<String> getCategorias() {
+        // Retorna una lista de las categorías que deseas mostrar
+        return Arrays.asList("Activo", "Pasivo", "Patrimonio neto", "Resultados");
+    }
+
     @GetMapping("/agregar_cuenta")
     public String agregar_cuenta(Model model) {
         model.addAttribute("cuenta", new Cuenta()); // Crea una nueva instancia de Cuenta para el formulario
@@ -27,8 +36,14 @@ public class CuentaController {
     }
 
     @PostMapping("/agregar_cuenta")
-    public String guardarCuenta(@ModelAttribute("cuenta") CuentaDto cuentaDto) {
+    public String guardarCuenta(@ModelAttribute("cuenta") CuentaDto cuentaDto,Model model) {
         // Lógica para guardar la cuenta en la base de datos a través del servicio
+
+        Cuenta cuentaChk = cuentaService.findByAccountName(cuentaDto.getNombre());
+        if (cuentaChk.getNombre().equals(cuentaDto.getNombre())) {
+            model.addAttribute("cuentaExistenteError","La cuenta ya esta registrada.");
+            return "redirect:/agregar_cuenta?failed";
+        }
         cuentaService.save(cuentaDto);
         return "redirect:/agregar_cuenta?success"; // Redirige a la página de lista de cuentas después de guardar
     }

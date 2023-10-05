@@ -67,6 +67,15 @@
       text-align: center;
     }
 
+    .failed-message {
+      background-color: #5e057e;
+      color: #fff;
+      padding: 10px;
+      border-radius: 3px;
+      text-align: center;
+    }
+
+
   </style>
 </head>
 <body>
@@ -75,16 +84,29 @@
     <p>La cuenta ha sido agregada al plan.</p>
   </div>
 </div>
+<div th:if="${param.failed}">
+  <div class="failed-message">
+    <p>La cuenta ya esta registrada.</p>
+  </div>
+</div>
 <h1>Agregar Cuenta</h1>
 <form th:action="@{/agregar_cuenta}" th:object="${cuenta}" method="post">
   <label for="nombre">Nombre:</label>
   <input type="text" id="nombre" th:field="*{nombre}" required><br><br>
 
   <label for="tipo_cuenta">Tipo de Cuenta:</label>
-  <input type="text" id="tipo_cuenta" th:field="*{tipo_cuenta}" required><br><br>
+  <select id="tipo_cuenta" name="tipo_cuenta" required>
+    <option th:each="categoria : ${categorias}" th:text="${categoria}"></option>
+  </select><br><br>
 
   <label for="saldo_actual">Saldo Actual:</label>
   <input type="text" id="saldo_actual" th:field="*{saldo_actual}" required><br><br>
+
+  <label for="recibe_saldo">Recibe saldo?</label>
+  <select id="recibe_saldo", name="recibe_saldo" required>
+    <option value="1">Si</option>
+    <option value="0">No</option>
+  </select>
 
   <label for="codigo">Código:</label>
   <input type="text" id="codigo" th:field="*{codigo}" required><br><br>

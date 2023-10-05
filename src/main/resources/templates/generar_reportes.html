@@ -2,12 +2,86 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Reportes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Reportes - Contablium</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #c299d0;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Estilo para el encabezado */
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        /* Estilo para el contenido principal */
+        main {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Estilo para las opciones */
+        .option {
+            margin: 20px;
+            padding: 30px;
+            background-color: #c299d0;
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .option:hover {
+            background-color: #a368a3;
+        }
+
+        nav {
+            background-color: #c299d0;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
 </head>
 <body>
-<div th:fragment="reportes">
-    <p>REPORTES</p>
-</div>
-
+<header>
+    <h1>Generar Reportes - Contablium</h1>
+    <nav th:include="fragments/nav_bar :: nav_bar"></nav>
+</header>
+<main>
+    <div class="option" onclick="window.location.href='/generar_libro_diario'">Generar Libro Diario</div>
+    <div class="option" onclick="window.location.href='/generar_libro_mayor'">Generar Libro Mayor</div>
+    <div class="option" onclick="window.location.href='/registrar_asiento'">Registrar un Asiento</div>
+</main>
 </body>
 </html>

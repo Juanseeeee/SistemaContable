@@ -40,7 +40,7 @@ public class CuentaController {
         // Lógica para guardar la cuenta en la base de datos a través del servicio
 
         Cuenta cuentaChk = cuentaService.findByAccountName(cuentaDto.getNombre());
-        if (cuentaChk.getNombre().equals(cuentaDto.getNombre())) {
+        if (cuentaChk != null && cuentaChk.getNombre().equals(cuentaDto.getNombre())) {
             model.addAttribute("cuentaExistenteError","La cuenta ya esta registrada.");
             return "redirect:/agregar_cuenta?failed";
         }

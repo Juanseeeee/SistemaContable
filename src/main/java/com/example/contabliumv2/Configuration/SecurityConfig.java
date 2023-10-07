@@ -38,7 +38,9 @@ public class SecurityConfig {
                         "/guardar_asiento",
                         "/guardar_detalle",
                         "/preparar_asiento",
-                        "/detalle/{id}").authenticated()
+                        "/detalle/{id}",
+                        "/generar_libro_diario",
+                        "/generar_libro_mayor").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")

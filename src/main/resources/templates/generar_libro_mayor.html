@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Libro Mayor</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin: 0;
+    }
+
+    nav {
+      background-color: #c299d0;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline;
+      margin-right: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #fff;
+    }
+
+  </style>
+</head>
+<body>
+<h2>Libro Mayor</h2>
+<nav th:include="fragments/nav_bar :: nav_bar"></nav>
+<h2>Mayor de :</h2>
+<!-- Menú desplegable para seleccionar la cuenta -->
+<form th:action="@{/generar_libro_mayor}">
+<select name="cuenta">
+  <option th:each="cuenta : ${cuentas}" th:value="${cuenta.id_cuenta}" th:text="${cuenta.nombre}"></option>
+</select>
+  <button type="submit">Generar</button>
+</form>
+<table>
+  <thead>
+  <tr>
+    <th>Fecha</th>
+    <th>Concepto</th>
+    <th>Debe</th>
+    <th>Haber</th>
+    <th>Saldo</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="detalle : ${detalles}">
+    <td th:text="${detalle.asiento.fecha}"></td>
+    <td th:text="${detalle.asiento.descripcion}"></td>
+    <td th:text="${detalle.debe}"></td>
+    <td th:text="${detalle.haber}"></td>
+    <td th:text="${detalle.getSaldo_parcial}"></td>-->
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

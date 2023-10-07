@@ -30,5 +30,9 @@ public class AsientoServiceImpl {
         return ultimoAsientoOptional.map(Asiento::getId_asiento).orElse(null);
     }
 
+    public Asiento obtenerUltimoAsiento() {
+        return asientoRepository.findFirstByOrderByIdAsientoDesc().orElse(null);
+    }
+
 
 }

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libro Diario</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin: 0;
+    }
+
+    nav {
+      background-color: #c299d0;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline;
+      margin-right: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #fff;
+    }
+
+  </style>
+</head>
+<body>
+<h2>Libro Diario</h2>
+<nav th:include="fragments/nav_bar :: nav_bar"></nav>
+<table>
+  <thead>
+  <tr>
+    <th>Fecha</th>
+    <th>Descripción</th>
+    <th>Cuenta</th>
+    <th>Debe</th>
+    <th>Haber</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Itera sobre los detalles -->
+  <tr th:each="detalle, iterStat : ${detalles}">
+    <!-- Muestra la fecha solo en la primera fila de cada asiento -->
+    <td th:if="${iterStat.first} or ${detalle.asiento.id_asiento} ne ${detalles[iterStat.index - 1].asiento.id_asiento}" th:text="${#dates.format(detalle.asiento.fecha, 'dd/MM/yyyy')}"></td>
+    <!-- Si no es la primera fila del asiento, deja el espacio en blanco -->
+    <td th:unless="${iterStat.first} or ${detalle.asiento.id_asiento} ne ${detalles[iterStat.index - 1].asiento.id_asiento}"></td>
+
+    <!-- Muestra el resto de la fila -->
+    <td th:text="${detalle.asiento.descripcion}"></td>
+    <td th:text="${detalle.cuenta.nombre}"></td>
+    <td th:text="${detalle.debe}"></td>
+    <td th:text="${detalle.haber}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

@@ -54,11 +54,12 @@ public class AsientoController {
         List<Cuenta> cuentas = cuentaRepository.findAll();
         // Agrega la lista de cuentas al modelo
         model.addAttribute("cuentas", cuentas);
+
         // Se seleccionó "Debe"
-        // Verifica el tipo de asiento
         if ("Debe".equals(detalleDTO.getTipoAsiento())) {
             detalleDTO.setDebe(detalleDTO.getMonto());
             detalleDTO.setHaber(0.0);
+            //Selecionaron haber
         } else if ("Haber".equals(detalleDTO.getTipoAsiento())) {
             detalleDTO.setHaber(detalleDTO.getMonto());
             detalleDTO.setDebe(0.0);
@@ -77,6 +78,7 @@ public class AsientoController {
         detalle.setCuenta(cuentaRepository.findByIdCuenta(detalleDTO.getCuenta().getId_cuenta()));
         detalle.setDebe(detalleDTO.getDebe());
         detalle.setHaber(detalleDTO.getHaber());
+        detalle.setSaldo_parcial(cuentaRepository.findByIdCuenta(detalleDTO.getCuenta().getId_cuenta()).getSaldo_actual()+detalleDTO.getMonto());
 
         if (detalle.getDebe() < 0 || detalle.getHaber() < 0) {
             return "redirect:/registrar_asiento?errorMonto";
@@ -142,12 +144,17 @@ public class AsientoController {
     //Este metodo solo crea un asiento y le pasa el control a registrar_asiento que registra detalles
     @GetMapping("/preparar_asiento")
     public String preparar_asiento(Model model) {
+        //Busca el asiento con descripción "prueba1"
+        Asiento existingAsiento = asientoRepository.findByDescripcion("prueba1");
 
-        //Creo el asiento y lo guardo para que persista
-        Asiento asiento = new Asiento();
-        asiento.setDescripcion("prueba1");
-        asiento.setFecha(new Date());
-        asientoRepository.save(asiento);
+        // Si no existe, crea uno nuevo
+        if (existingAsiento == null) {
+            //Creo el asiento y lo guardo para que persista
+            Asiento asiento = new Asiento();
+            asiento.setDescripcion("prueba1");
+            asiento.setFecha(new Date());
+            asientoRepository.save(asiento);
+        }
 
         detallesTemporales.clear();
 
@@ -160,7 +167,7 @@ public class AsientoController {
     public String verDetalle(@PathVariable("id") Long id, Model model) {
         // Lógica para cargar el detalle del asiento con el ID proporcionado
         // y agregarlo al modelo
-        Asiento asiento = asientoRepository.findByIdAsiento(asientoService.obtenerUltimoAsientoId());
+        Asiento asiento = asientoRepository.findByIdAsiento(Math.toIntExact(id));
         model.addAttribute("asiento", asiento);
         List<Detalle> detalles = detalleRepository.findAllByAsiento(asiento);
         model.addAttribute("ListaDetallesTemporales", detalles);

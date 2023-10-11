@@ -30,11 +30,11 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/register").permitAll()
-                .requestMatchers("home").permitAll()
+                .requestMatchers("/agregar_cuenta").hasRole("ADMIN")
                 .requestMatchers("/registrar_asiento",
+                        "/home",
                         "/ver_asientos",
                         "/generar_reportes",
-                        "/agregar_cuenta",
                         "/guardar_asiento",
                         "/guardar_detalle",
                         "/preparar_asiento",

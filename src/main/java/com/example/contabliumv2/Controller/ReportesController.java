@@ -7,10 +7,7 @@ import com.example.contabliumv2.Repository.CuentaRepository;
 import com.example.contabliumv2.Repository.DetalleRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,25 +35,22 @@ public class ReportesController {
     }
 
     @GetMapping("/generar_libro_mayor")
-    public String generarLibroMayor(Model model){
-        //Necesito los detalles.
-        List<Detalle> detalles = detalleRepository.findAll();
-        //Necesito una cuenta
+    public String generarLibroMayor(@RequestParam(name = "cuenta", required = false) Integer idCuenta, Model model) {
+        // Si idCuenta es null, muestra todos los detalles, de lo contrario, filtra por el ID de la cuenta.
+        Cuenta cuentaFiltro = cuentaRepository.findByIdCuenta(idCuenta);
+        List<Detalle> detalles;
+        if (idCuenta != null) {
+            detalles = detalleRepository.findAllByCuenta(cuentaFiltro);
+        } else {
+            detalles = detalleRepository.findAll();
+        }
+
         List<Cuenta> cuentas = cuentaRepository.findAll();
-        model.addAttribute("cuentas",cuentas);
-
-        model.addAttribute("detalles",detalles);
-
+        model.addAttribute("cuentas", cuentas);
+        model.addAttribute("detalles", detalles);
 
         return "generar_libro_mayor";
     }
 
-    @PostMapping("/generar_libro_mayor")
-    public String generarLibroPost(@PathVariable("id_cuenta") Integer id_cuenta, Model model){
-        Cuenta cuentaFiltro = cuentaRepository.findByIdCuenta(id_cuenta);
-        List<Detalle> detalles = detalleRepository.findAllByCuenta(cuentaFiltro);
-        model.addAttribute("detalles",detalles);
 
-        return "redirect:/generar_libro_mayor?cuenta/id_cuenta";
-    }
 }

@@ -6,7 +6,9 @@
   <style>
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #f5f5f5;
+      background-image: url("https://e1.pxfuel.com/desktop-wallpaper/20/386/desktop-wallpaper-stock-of-accounting-%C2%B7-pexels-accounting.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
       margin: 0;
       padding: 0;
     }
@@ -24,10 +26,11 @@
     }
 
     nav {
-      background-color: #c299d0;
       color: #fff;
       text-align: center;
-      padding: 10px 0;
+      margin-bottom: 10px; /* Espaciado inferior */
+      padding: 10px 230px 10px 0;
+      margin-left: 20px;
     }
 
     nav ul {
@@ -44,6 +47,12 @@
       text-decoration: none;
       color: #fff;
       font-weight: bold;
+      padding: 10px 20px; /* Ajusta el relleno para el botón */
+      border-radius: 5px ; /* Bordes redondeados */
+      border-color: #4caf50;
+      background-color:transparent; /* Color de fondo del botón */
+      transition: background-color 0.3s ease; /* Transición suave del color de fondo */
+      font-family: "Copperplate Gothic Light";
     }
 
     nav a:hover {
@@ -84,11 +93,38 @@
       background-color: #fff;
     }
 
+    #boton-volver{
+      background-color: #c299d0;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-top: 100px;
+    }
+
+    #vista_asientos{
+      margin-bottom: 20px;
+    }
+
+    div#header {
+      background-color: rgba(46, 45, 45, 0.7); /* Color de fondo con transparencia */
+      border-bottom: 5px solid #4caf50; /* Borde en la parte inferior */
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+      display: flex; /* Utilizamos flexbox para organizar los elementos */
+      justify-content: space-between; /* Espacio entre los elementos */
+      align-items: center; /* Centra verticalmente los elementos */
+    }
   </style>
 </head>
 <body>
 <h2>Libro Mayor</h2>
-<nav th:include="fragments/nav_bar :: nav_bar"></nav>
+<div id="header">
+  <nav th:include="fragments/nav_bar :: nav_bar"></nav>
+</div>
 <h2>Mayor de :</h2>
 <!-- Menú desplegable para seleccionar la cuenta -->
 <form th:action="@{/generar_libro_mayor}">
@@ -97,6 +133,7 @@
 </select>
   <button type="submit">Generar</button>
 </form>
+<div id="vista_asientos">
 <table>
   <thead>
   <tr>
@@ -117,6 +154,8 @@
   </tr>
   </tbody>
 </table>
+</div>
+<a th:href="@{/home}" id="boton-volver">Volver al inicio</a>
 
 </body>
 </html>

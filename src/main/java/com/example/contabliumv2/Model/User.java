@@ -15,6 +15,15 @@ public class User {
     private String username;
     private String password;
     private String fullname;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
+    public User(String username, String password, String fullname, UserRole role) {
+        this.username = username;
+        this.password = password;
+        this.fullname = fullname;
+        this.role = role;
+    }
 
     public User() {
     }
@@ -59,5 +68,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }

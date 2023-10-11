@@ -70,6 +70,8 @@ public class AsientoController {
         //Cuando entre en registrar asiento busca el ultimo asiento que cree en preparar_asiento
         //Si no es el ultimo que cree en preparar asiento es el ultimo que cree que lo quiero modificar por algun error
         Asiento asiento = asientoRepository.findByIdAsiento(asientoService.obtenerUltimoAsientoId());
+        //Agrego el asiento a la vista para mostrar el id
+        model.addAttribute("asiento_id",asientoService.obtenerUltimoAsientoId());
 
 
         // Crear un nuevo Detalle
@@ -145,13 +147,13 @@ public class AsientoController {
     @GetMapping("/preparar_asiento")
     public String preparar_asiento(Model model) {
         //Busca el asiento con descripción "prueba1"
-        Asiento existingAsiento = asientoRepository.findByDescripcion("prueba1");
+        Asiento existingAsiento = asientoRepository.findByDescripcion("Proximo asiento a registrar.");
 
         // Si no existe, crea uno nuevo
         if (existingAsiento == null) {
             //Creo el asiento y lo guardo para que persista
             Asiento asiento = new Asiento();
-            asiento.setDescripcion("prueba1");
+            asiento.setDescripcion("Proximo asiento a registrar.");
             asiento.setFecha(new Date());
             asientoRepository.save(asiento);
         }
@@ -186,7 +188,7 @@ public class AsientoController {
                     cuentaRepository.findByIdCuenta(detalle.getCuenta().getId_cuenta()).imputarCuenta(detalle.getDebe());
                 }
                 //Si es Pasivo disminuye por el debe(CHEQUEO QUE NO SEA MENOR QUE 0 ES DECIR SALDO NEGATIVO
-                else if (detalle.getCuenta().getTipo_cuenta().equals("Pasivo")) {
+                else if (detalle.getCuenta().getTipo_cuenta().equals("Pasivo") || detalle.getCuenta().getTipo_cuenta().equals("Resultado+")) {
                     cuentaRepository.findByIdCuenta(detalle.getCuenta().getId_cuenta()).imputarCuenta(-detalle.getDebe());
                 }
             }

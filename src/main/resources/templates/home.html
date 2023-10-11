@@ -1,33 +1,42 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Sistema Contable</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
+            background-image: url("https://e1.pxfuel.com/desktop-wallpaper/20/386/desktop-wallpaper-stock-of-accounting-%C2%B7-pexels-accounting.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
             margin: 0;
             padding: 0;
+            align-items: center;
         }
 
-        header {
-            background-color: #333;
+        div#header {
+            background-color: rgba(46, 45, 45, 0.7); /* Color de fondo con transparencia */
+            border-bottom: 5px solid #4caf50; /* Borde en la parte inferior */
             color: #fff;
             text-align: center;
             padding: 20px 0;
+            display: flex; /* Utilizamos flexbox para organizar los elementos */
+            justify-content: space-between; /* Espacio entre los elementos */
+            align-items: center; /* Centra verticalmente los elementos */
         }
 
         h1 {
             font-size: 32px;
-            margin: 0;
+            margin-left: 0;
+            font-family: Garamond;
         }
 
         nav {
-            background-color: #c299d0;
             color: #fff;
             text-align: center;
-            padding: 10px 0;
+            margin-bottom: 10px; /* Espaciado inferior */
+            padding: 10px 230px 10px 0;
+            margin-left: 20px;
         }
 
         nav ul {
@@ -44,6 +53,12 @@
             text-decoration: none;
             color: #fff;
             font-weight: bold;
+            padding: 10px 20px; /* Ajusta el relleno para el botón */
+            border-radius: 5px ; /* Bordes redondeados */
+            border-color: #4caf50;
+            background-color:transparent; /* Color de fondo del botón */
+            transition: background-color 0.3s ease; /* Transición suave del color de fondo */
+            font-family: "Copperplate Gothic Light";
         }
 
         nav a:hover {
@@ -61,35 +76,14 @@
 
         footer {
             text-align: center;
-            background-color: #333;
+            background-color: #4caf50;
             color: #fff;
             padding: 10px 0;
         }
 
-        .dashboard {
-            background-color: #5e057e;
-            color: #fff;
-            padding: 40px;
-            text-align: center;
-        }
-
-        .dashboard__title {
-            font-size: 24px;
-            margin-top: 0;
-        }
-
-        .dashboard__user {
-            margin-top: 20px;
-        }
-
-        .dashboard__user-name {
-            font-size: 50px;
-            color: #c299d0;
-        }
-
         a.agregar-cuenta-link {
             display: inline-block;
-            background-color: #c299d0; /* Color principal */
+            background-color: #4caf50;
             color: #fff;
             padding: 10px 20px;
             text-decoration: none;
@@ -97,17 +91,18 @@
         }
 
         a.agregar-cuenta-link:hover {
-            background-color: #a87ab9; /* Color principal al pasar el cursor */
+            background-color: #45a049;
         }
 
-        /*Estilo para la vista de asientos */
+        /* Estilo para la vista de asientos */
         table {
             border-collapse: collapse;
             width: 100%;
             border: 1px solid #ccc;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #ccc;
             padding: 8px;
             text-align: center;
@@ -126,27 +121,61 @@
             background-color: #fff;
         }
 
+        div.bienvenida{
+            display: flex;
+            justify-content: space-between;
+            height: 50px;
+            align-items: center;
+            padding-right: 20px;
+            padding-left: 10px;
+        }
+
+        #logout{
+            background: gainsboro;
+            border-radius: 20px;
+            border: black 10px;
+            padding: 10px;
+            margin-right: 20px;
+        }
+
+        #titulo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        #titulo h1 {
+            margin-bottom: 20px; /* Margen inferior para separar el h1 de la imagen */
+        }
+
+        #titulo img{
+            margin-bottom: 20px;
+            height: 15%;
+            width: 15%;
+        }
+
+        h1#nombre_usuario{
+            margin-left: -120px;
+            font-family: "Copperplate Gothic Light";
+        }
+
     </style>
 </head>
 <body>
-<header>
-    <h1>Sistema Contable</h1>
-</header>
-<!--
-<div class="dashboard">
-    <h1 class="dashboard__title">Welcome to the Dashboard</h1>
-    <div class="dashboard__user">
-        <h2 th:text="${userdetail.fullname}" class="dashboard__user-name">User's Name</h2>
-    </div>
+<div id="titulo">
+<h1>Sistema Contable</h1>
 </div>
-<span sec:authorize="isAuthenticated"><a th:href="@{/logout}">Logout</a></span> -->
-<nav>
-    <ul>
-        <li><a th:href="@{/preparar_asiento}">Registrar Asiento</a></li>
-        <li><a th:href="@{/generar_reportes}">Generar Reportes</a></li>
-        <li><a th:href="@{/home}">Ver Asientos</a></li>
-    </ul>
-</nav>
+    <div id="header">
+    <h1 >Bienvenido: </h1><h1 th:text="${userdetail.getUsername()}" id="nombre_usuario"></h1>
+
+        <nav th:replace="fragments/nav_bar :: nav_bar"></nav>
+
+    <span sec:authorize="isAuthenticated"><a th:href="@{/logout}" id="logout">Cerrar Sesion</a></span>
+
+</div>
+
 
 <main>
     <!-- Contenido principal de cada página se cargará aquí -->

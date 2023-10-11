@@ -4,44 +4,49 @@
     <meta charset="ISO-8859-1">
     <title>Login</title>
     <style>
-        .container {
+        body {
+            background-image: url("https://e1.pxfuel.com/desktop-wallpaper/20/386/desktop-wallpaper-stock-of-accounting-%C2%B7-pexels-accounting.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
 
-        .form-container {
+        .container {
             background-color: #fff;
             padding: 30px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin: 10px;
-            width: 400px; /* Adjust the width as per your preference */
+            width: 400px;
+            text-align: center;
         }
 
         h2 {
-            text-align: center;
-            color: #5e057e;
+            color: #1e1e1e;
             font-weight: bold;
             margin-bottom: 20px;
+            font-family: "Copperplate Gothic Light";
         }
 
         .form-group {
             margin-bottom: 20px;
+            text-align: left;
         }
 
         label {
             display: block;
             margin-bottom: 5px;
-            color: #5e057e;
+            color: #1e1e1e;
             font-weight: bold;
+            font-family: "Copperplate Gothic Light";
         }
 
         input[type="text"],
-        input[type="text"],
         input[type="password"] {
-            width: 100%;
+            width: calc(100% - 20px);
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 3px;
@@ -49,29 +54,36 @@
         }
 
         button[type="submit"] {
-            background-color: #5e057e;
+            background-color: #1e1e1e;
             color: #fff;
             padding: 10px 20px;
             border: none;
             border-radius: 3px;
             cursor: pointer;
-            width: 100%;
+            width: calc(100% - 20px);
             font-weight: bold;
         }
 
         button[type="submit"]:hover {
-            background-color: #c299d0;
+            background-color: #3d8b2a;
         }
 
-        .error-message, .logout-message {
-            background-color: #5e057e;
+        .error-message,
+        .logout-message {
+            background-color: #3d8b2a;
             color: #fff;
             padding: 10px;
             border-radius: 3px;
             text-align: center;
+            margin-bottom: 10px;
         }
 
-
+        #login-image {
+            width: 100%; /* Ocupar todo el ancho del contenedor */
+            max-width: 100%; /* Evitar que la imagen sea más grande que su tamaño original */
+            height: auto; /* Mantener la proporción de la imagen */
+            margin-bottom: 20px;
+        }/* Espacio entre la imagen y el formulario */
 
     </style>
 </head>
@@ -94,6 +106,8 @@
                 <p>Logout Successful!</p>
             </div>
         </div>
+
+        <img src="./710ccb33-29ac-477a-bbc2-4ee955e1c1d1.png" id="login-image" alt="Imagen de fondo">
 
         <h2>Login</h2>
         <form

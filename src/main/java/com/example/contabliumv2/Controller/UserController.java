@@ -41,7 +41,7 @@ public class UserController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         model.addAttribute("userdetail",userDetails);
         List<Cuenta> cuentas = cuentaRepository.findAll();
-
+        System.out.println("Authorities"+userDetails.getAuthorities());
         // Agrega la lista de cuentas al modelo
         model.addAttribute("cuentas", cuentas);
         List<Asiento> asientos = asientoRepository.findAll();
@@ -87,8 +87,14 @@ public class UserController {
             model.addAttribute("userexist",user);
             return "register";
         }
+
         userService.save(userDto);
         return "redirect:/register?success";
+    }
+
+    @GetMapping("/logout")
+    public String logout(){
+        return "login";
     }
 
 

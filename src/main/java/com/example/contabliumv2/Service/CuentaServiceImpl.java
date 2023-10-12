@@ -5,6 +5,8 @@ import com.example.contabliumv2.Model.Cuenta;
 import com.example.contabliumv2.Repository.CuentaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CuentaServiceImpl implements CuentaService{
 
@@ -26,6 +28,10 @@ public class CuentaServiceImpl implements CuentaService{
         return cuentaRepository.save(cuenta);
     }
 
+    @Override
+    public List<Cuenta> findAll() {
+        return cuentaRepository.findAll();
+    }
 
 
 }

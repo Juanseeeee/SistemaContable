@@ -49,24 +49,12 @@ public class UserController {
         return "home";
     }
 
-    @GetMapping ("/registrar_asiento")
-    public String mostrarRegistrarAsiento(Model model) {
-        List<Cuenta> cuentas = cuentaRepository.findAll();
-
-        // Agrega la lista de cuentas al modelo
-        model.addAttribute("cuentas", cuentas);
-        return "registrar_asiento";
-    }
 
     @GetMapping("/generar_reportes")
     public String mostrarGenerarReportes(Model model) {
         return "generar_reportes";
     }
 
-    @GetMapping("/ver_asientos")
-    public String mostrarVerAsientos(Model model) {
-        return "ver_asientos";
-    }
 
     @GetMapping("/login")
     public String login(Model model , UserDto userDto){

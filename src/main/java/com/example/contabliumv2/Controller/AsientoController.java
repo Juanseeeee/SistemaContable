@@ -41,6 +41,17 @@ public class AsientoController {
 
     // ... Otros métodos de controlador ...
 
+    public List<Cuenta> cuentas_reciben_saldo(){
+        List<Cuenta> cuentas = cuentaRepository.findAll();
+        List<Cuenta> cuentasRecibenSaldo = new ArrayList<>();
+        for (Cuenta cuenta : cuentas){
+            if (cuenta.getRecibe_saldo() == 1){
+                cuentasRecibenSaldo.add(cuenta);
+            }
+        }
+        return cuentasRecibenSaldo;
+    }
+
     @GetMapping("/agregar_detalle")
     public String agregar_detalle(Model model) {
         model.addAttribute("detalle", new Detalle()); // Crea una nueva instancia de Cuenta para el formulario
@@ -48,10 +59,17 @@ public class AsientoController {
     }
 
 
+    @GetMapping ("/registrar_asiento")
+    public String mostrarRegistrarAsiento(Model model) {
+        List<Cuenta> cuentas = cuentas_reciben_saldo();
+        model.addAttribute("cuentas",cuentas);
+        return "registrar_asiento";
+    }
+
     @Transactional
     @PostMapping("/registrar_asiento")
     public String guardarDetalle(@ModelAttribute DetalleDTO detalleDTO, Model model, HttpSession session) {
-        List<Cuenta> cuentas = cuentaRepository.findAll();
+        List<Cuenta> cuentas = cuentas_reciben_saldo();
         // Agrega la lista de cuentas al modelo
         model.addAttribute("cuentas", cuentas);
 
@@ -184,10 +202,12 @@ public class AsientoController {
             //Si va por el debe:
             if (detalle.getHaber().equals(0.0)) {
                 //Si es Activo aumenta por el debe
-                if (detalle.getCuenta().getTipo_cuenta().equals("Activo")) {
+                //Si es una cuenta de Egresos(Resultados-) aumenta por el debe
+                if (detalle.getCuenta().getTipo_cuenta().equals("Activo") || detalle.getCuenta().getTipo_cuenta().equals("Resultado-")) {
                     cuentaRepository.findByIdCuenta(detalle.getCuenta().getId_cuenta()).imputarCuenta(detalle.getDebe());
                 }
                 //Si es Pasivo disminuye por el debe(CHEQUEO QUE NO SEA MENOR QUE 0 ES DECIR SALDO NEGATIVO
+                //Si es una cuenta de Ingresos(Resultados+) disminuye por el debe
                 else if (detalle.getCuenta().getTipo_cuenta().equals("Pasivo") || detalle.getCuenta().getTipo_cuenta().equals("Resultado+")) {
                     cuentaRepository.findByIdCuenta(detalle.getCuenta().getId_cuenta()).imputarCuenta(-detalle.getDebe());
                 }
@@ -195,11 +215,13 @@ public class AsientoController {
             //Si va por el haber
             else if (detalle.getDebe().equals(0.0)) {
                 //Si es Activo disminuye por el haber
-                if (detalle.getCuenta().getTipo_cuenta().equals("Activo")) {
+                //Si es una cuenta de Egresos(Resultados-) disminuye por el haber
+                if (detalle.getCuenta().getTipo_cuenta().equals("Activo") || detalle.getCuenta().getTipo_cuenta().equals("Resultado-")) {
                     cuentaRepository.findByIdCuenta(detalle.getCuenta().getId_cuenta()).imputarCuenta(-detalle.getHaber());
                 }
                 //Si es Pasivo aumenta por el haber
-                else if (detalle.getCuenta().getTipo_cuenta().equals("Pasivo")) {
+                //Si es una cuenta de Ingresos(Resultados+) aumenta por el haber
+                else if (detalle.getCuenta().getTipo_cuenta().equals("Pasivo") || detalle.getCuenta().getTipo_cuenta().equals("Resultado+")) {
                     cuentaRepository.findByIdCuenta(detalle.getCuenta().getId_cuenta()).imputarCuenta(detalle.getHaber());
                 }
             }
@@ -232,7 +254,13 @@ public class AsientoController {
             }
         }
     }
+
+    public void eliminar_detalle(){
+
+    }
 }
+
+
 
 
 

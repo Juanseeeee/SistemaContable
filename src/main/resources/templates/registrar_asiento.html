@@ -69,13 +69,14 @@
       font-weight: bold;
       margin-bottom: 5px;
       color: black;
+      font-family: "Copperplate Gothic Light";
     }
 
     form input[type="text"],
     form input[type="date"],
     form select,
     form textarea {
-      width: 100%;
+      width: 20%;
       padding: 10px;
       margin-bottom: 15px;
       border: 1px solid #ccc;
@@ -225,13 +226,13 @@
     }
 
     div#nav {
-      background-color: rgba(46, 45, 45, 0.7); /* Color de fondo con transparencia */
+      background-color: rgba(46, 45, 45, 0.9); /* Color de fondo con transparencia */
       border-bottom: 5px solid #4caf50; /* Borde en la parte inferior */
       color: #fff;
       text-align: center;
       padding: 20px 0;
       display: flex; /* Utilizamos flexbox para organizar los elementos */
-      justify-content: space-between; /* Espacio entre los elementos */
+      justify-content: center; /* Espacio entre los elementos */
       align-items: center; /* Centra verticalmente los elementos */
     }
 
@@ -286,7 +287,7 @@
           <input type="text" id="descripcion" name="descripcion"  required></input><br><br>
 
           <!-- Campo nro asiento -->
-          <label>Nro de asiento</label><label th:text="${asiento_id}" id="nro-asiento"></label>
+          <label>Nro de asiento</label><label th:text="${asiento}" id="nro-asiento"></label>
           <button type="submit">Guardar Asiento</button>
         </form>
     </div>
@@ -296,11 +297,13 @@
       <div>
     <label for="cuenta">Cuenta:</label>
     <select id="cuenta" name="cuenta" required>
-      <option th:each="cuenta : ${cuentas}" th:value="${cuenta.id_cuenta}" th:text="${cuenta.nombre}"></option>
+      <option th:each="cuenta : ${cuentas}" th:value="${cuenta.id_cuenta}" th:text="${cuenta.nombre+' '+cuenta.getCodigo()}"></option>
     </select>
     <!-- Botón para agregar nueva cuenta (opcional) -->
     <button id="volver" th:onclick="'window.location.href = \'/agregar_cuenta\''" class="btn btn-addAcount">Agregar cuenta</button>
-        <!-- Campo monto -->
+        <button  th:onclick="'window.location.href = \'/plan_de_cuentas\''" class="btn btn-addAcount">Plan de cuentas</button>
+
+        <div id="monto-debe-haber">
         <label for="monto">Monto:</label>
         <input type="text" id="monto" name="monto" required min="0"><br><br>
       </div>
@@ -312,8 +315,7 @@
 
         <label for="haber">Haber</label>
       <input type="radio" id="haber" name="tipoAsiento" value="Haber" th:onclick="'#tipo'.value =='Haber'">
-
-
+      </div>
 
       </div>
       <button type="submit" >Agregar</button>
@@ -328,6 +330,7 @@
         <th>Cuenta</th>
         <th>Debe</th>
         <th>Haber</th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
@@ -335,7 +338,7 @@
         <td th:text="${asientoTemp.getCuenta()}"></td>
         <td th:text="${asientoTemp.getDebe()}"></td>
         <td th:text="${asientoTemp.getHaber()}"></td>
-
+        <td><a th:href="@{/eliminar_detalle}">Eliminar</a></td> <!-- Botón para eliminar la fila -->
       </tr>
       </tbody>
     </table>

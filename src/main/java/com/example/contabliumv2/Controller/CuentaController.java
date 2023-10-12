@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,19 +34,46 @@ public class CuentaController {
     @GetMapping("/agregar_cuenta")
     public String agregar_cuenta(Model model) {
         model.addAttribute("cuenta", new Cuenta()); // Crea una nueva instancia de Cuenta para el formulario
+        List<Cuenta> cuentas = cuentaService.findAll();
+        List<Cuenta> cuentasPadre = new ArrayList<>();
+        for (Cuenta cuenta : cuentas){
+            if (cuenta.getRecibe_saldo() == 0){
+                cuentasPadre.add(cuenta);
+            }
+        }
+        System.out.println(cuentasPadre);
+        model.addAttribute("cuentas_padre",cuentasPadre);
         return "agregar_cuenta";
     }
 
     @PostMapping("/agregar_cuenta")
     public String guardarCuenta(@ModelAttribute("cuenta") CuentaDto cuentaDto,Model model) {
-        // Lógica para guardar la cuenta en la base de datos a través del servicio
-
+        List<Cuenta> cuentas = cuentaService.findAll();
+        List<Cuenta> cuentasPadre = new ArrayList<>();
+        for (Cuenta cuenta : cuentas){
+            if (cuenta.getRecibe_saldo() == 0){
+                cuentasPadre.add(cuenta);
+            }
+        }
+        System.out.println(cuentasPadre);
+        model.addAttribute("cuentas_padre",cuentasPadre);
+        //Chequeo si la cuenta es valida y si no esta registrada.
         Cuenta cuentaChk = cuentaService.findByAccountName(cuentaDto.getNombre());
         if (cuentaChk != null && cuentaChk.getNombre().equals(cuentaDto.getNombre())) {
             model.addAttribute("cuentaExistenteError","La cuenta ya esta registrada.");
             return "redirect:/agregar_cuenta?failed";
         }
+        //Si no esta registrada miro si es una cuenta padre o no
+        if (cuentaDto.getRecibe_saldo() == 0){
+            //Si es padre entonces
+        }
         cuentaService.save(cuentaDto);
         return "redirect:/agregar_cuenta?success"; // Redirige a la página de lista de cuentas después de guardar
+    }
+
+    @GetMapping("/plan_de_cuentas")
+    public String planDeCuentas(Model model){
+        model.addAttribute("cuentas",cuentaService.findAll());
+        return "plan_de_cuentas";
     }
 }

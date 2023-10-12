@@ -111,6 +111,12 @@
   <label for="codigo">Código:</label>
   <input type="text" id="codigo" th:field="*{codigo}" required><br><br>
 
+  <label for="cuenta_padre">Cuenta Padre:</label>
+  <select id="cuenta_padre", name="padre">
+    <option th:each="cuenta : ${cuentas_padre}" th:value="${cuenta.id_cuenta}" th:text="${cuenta.getNombre()+' '+cuenta.getCodigo()}"></option>
+
+  </select>
+
   <button type="submit">Guardar Cuenta</button>
   <button id="volver" th:onclick="'window.location.href = \'/home\''" class="btn btn-primary">Regresar</button>
 </form>

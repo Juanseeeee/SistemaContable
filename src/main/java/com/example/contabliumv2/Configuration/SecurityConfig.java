@@ -30,7 +30,6 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/register").permitAll()
-                .requestMatchers("/agregar_cuenta").hasRole("ADMIN")
                 .requestMatchers("/registrar_asiento",
                         "/home",
                         "/ver_asientos",
@@ -40,7 +39,9 @@ public class SecurityConfig {
                         "/preparar_asiento",
                         "/detalle/{id}",
                         "/generar_libro_diario",
-                        "/generar_libro_mayor").authenticated()
+                        "/generar_libro_mayor",
+                        "/agregar_cuenta",
+                        "/plan_de_cuentas").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")

@@ -19,6 +19,7 @@ public class Cuenta implements Serializable {
     private Integer recibe_saldo;
     private Double saldo_actual;
     private int codigo;
+    private int padre;
 
     public Cuenta(String nombre, String tipo_cuenta, Double saldo_actual, int codigo, int recibe_saldo) {
         this.nombre = nombre;
@@ -28,12 +29,7 @@ public class Cuenta implements Serializable {
         this.recibe_saldo = recibe_saldo;
     }
 
-    public Cuenta(String nombre, String tipo_cuenta, Double saldo_actual, int codigo) {
-        this.nombre = nombre;
-        this.tipo_cuenta = tipo_cuenta;
-        this.saldo_actual = saldo_actual;
-        this.codigo = codigo;
-    }
+
 
     public Cuenta() {
 
@@ -92,7 +88,17 @@ public class Cuenta implements Serializable {
         this.recibe_saldo = recibe_saldo;
     }
 
+    public int getPadre() {
+        return padre;
+    }
+
+    public void setPadre(int padre) {
+        this.padre = padre;
+    }
+
     public void imputarCuenta(Double monto){
         this.saldo_actual += monto;
     }
+
+
 }

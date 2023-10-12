@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plan de cuentas</title>
+  <style>
+    body{
+      background-image: url("https://e1.pxfuel.com/desktop-wallpaper/20/386/desktop-wallpaper-stock-of-accounting-%C2%B7-pexels-accounting.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    /* Estilos para las celdas */
+    td {
+      vertical-align: middle; /* Alineación vertical al centro del contenido de la celda */
+      background-color: white;
+    }
+
+    /* Estilos para las filas al pasar el cursor */
+    tr:hover {
+      background-color: #e0e0e0;
+    }
+
+    nav {
+      color: #fff;
+      text-align: center;
+      margin-bottom: 10px; /* Espaciado inferior */
+      padding: 10px 230px 10px 0;
+      margin-left: 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline;
+      margin-right: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      padding: 10px 20px; /* Ajusta el relleno para el botón */
+      border-radius: 5px ; /* Bordes redondeados */
+      border-color: #4caf50;
+      background-color:transparent; /* Color de fondo del botón */
+      transition: background-color 0.3s ease; /* Transición suave del color de fondo */
+      font-family: "Copperplate Gothic Light";
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    div#header {
+      background-color: rgba(46, 45, 45, 0.7); /* Color de fondo con transparencia */
+      border-bottom: 5px solid #4caf50; /* Borde en la parte inferior */
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+      display: flex; /* Utilizamos flexbox para organizar los elementos */
+      justify-content: center; /* Espacio entre los elementos */
+      align-items: center; /* Centra verticalmente los elementos */
+    }
+  </style>
+</head>
+<body>
+<div id="header">
+<nav th:replace="fragments/nav_bar"></nav>
+</div>
+  <table>
+  <thead>
+  <tr>
+    <th>Cuenta</th>
+    <th>Codigo</th>
+    <th>Tipo</th>
+    <th>Recibe Saldo</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="cuenta : ${cuentas}">
+    <td th:text="${cuenta.getNombre()}"></td>
+    <td th:text="${cuenta.getCodigo()}"></td>
+    <td th:text="${cuenta.getTipo_cuenta()}"></td>
+    <td th:text="${cuenta.getRecibe_saldo() == 1 ? 'Sí' : 'No'}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

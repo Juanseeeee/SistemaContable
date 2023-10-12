@@ -5,12 +5,15 @@ import com.example.contabliumv2.Model.Cuenta;
 import com.example.contabliumv2.Service.CuentaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,22 +35,25 @@ public class CuentaController {
     }
 
     @GetMapping("/agregar_cuenta")
-    public String agregar_cuenta(Model model) {
-        model.addAttribute("cuenta", new Cuenta()); // Crea una nueva instancia de Cuenta para el formulario
-        List<Cuenta> cuentas = cuentaService.findAll();
-        List<Cuenta> cuentasPadre = new ArrayList<>();
-        for (Cuenta cuenta : cuentas){
-            if (cuenta.getRecibe_saldo() == 0){
-                cuentasPadre.add(cuenta);
+    public String agregar_cuenta(Model model,@AuthenticationPrincipal UserDetails userDetails) {
+            model.addAttribute("cuenta", new Cuenta()); // Crea una nueva instancia de Cuenta para el formulario
+            List<Cuenta> cuentas = cuentaService.findAll();
+            List<Cuenta> cuentasPadre = new ArrayList<>();
+            for (Cuenta cuenta : cuentas) {
+                if (cuenta.getRecibe_saldo() == 0) {
+                    cuentasPadre.add(cuenta);
+                }
             }
-        }
-        System.out.println(cuentasPadre);
-        model.addAttribute("cuentas_padre",cuentasPadre);
-        return "agregar_cuenta";
+            System.out.println(userDetails.getAuthorities());
+            model.addAttribute("cuentas_padre", cuentasPadre);
+            return "agregar_cuenta";
+
     }
 
     @PostMapping("/agregar_cuenta")
-    public String guardarCuenta(@ModelAttribute("cuenta") CuentaDto cuentaDto,Model model) {
+    public String guardarCuenta(@ModelAttribute("cuenta") CuentaDto cuentaDto,Model model,@AuthenticationPrincipal UserDetails userDetails) {
+
+
         List<Cuenta> cuentas = cuentaService.findAll();
         List<Cuenta> cuentasPadre = new ArrayList<>();
         for (Cuenta cuenta : cuentas){
@@ -76,4 +82,10 @@ public class CuentaController {
         model.addAttribute("cuentas",cuentaService.findAll());
         return "plan_de_cuentas";
     }
+
+
+        @GetMapping("/error/access-denied")
+        public String accessDenied() {
+            return "redirect:/registrar_asiento?permisos"; // Nombre de la vista para la página de error personalizada
+        }
 }

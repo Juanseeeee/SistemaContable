@@ -1,5 +1,6 @@
 package com.example.contabliumv2.Configuration;
 
+import com.example.contabliumv2.ErrorHandler.CustomAccessDeniedHandler;
 import com.example.contabliumv2.Service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -19,6 +21,8 @@ public class SecurityConfig {
 
     @Autowired
     CustomUserDetailService customUserDetailService;
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public static PasswordEncoder passwordEncoder(){
@@ -26,22 +30,17 @@ public class SecurityConfig {
     }
 
     @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/register").permitAll()
-                .requestMatchers("/registrar_asiento",
-                        "/home",
-                        "/ver_asientos",
-                        "/generar_reportes",
-                        "/guardar_asiento",
-                        "/guardar_detalle",
-                        "/preparar_asiento",
-                        "/detalle/{id}",
-                        "/generar_libro_diario",
-                        "/generar_libro_mayor",
-                        "/agregar_cuenta",
-                        "/plan_de_cuentas").authenticated()
+                .requestMatchers("/agregar_cuenta").hasAuthority("ADMIN")
+                .requestMatchers("/register","/login").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -52,7 +51,10 @@ public class SecurityConfig {
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout").permitAll();
+                .logoutSuccessUrl("/login?logout").permitAll()
+                .and()
+                .exceptionHandling() // Manejar excepciones
+                .accessDeniedHandler(accessDeniedHandler);
 
                 return http.build();
 
